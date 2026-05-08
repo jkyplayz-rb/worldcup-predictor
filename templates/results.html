@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Results — World Cup Predictor</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header>
+    <h1>⚽ World Cup Predictor</h1>
+    <nav>
+      <a href="/">Matches</a>
+      <a href="/results">Results</a>
+      <a href="/leaderboard">Leaderboard</a>
+      <a href="/logout">Logout</a>
+    </nav>
+  </header>
+  <main>
+    <h2 class="section-title">Enter Match Results</h2>
+    {% for message in get_flashed_messages() %}
+    <p class="flash">{{ message }}</p>
+    {% endfor %}
+    <div class="matches">
+      {% for match in matches %}
+      <div class="match-card">
+        <div class="match-meta">{{ match.stage }} · {{ match.match_date }}</div>
+        <div class="match-teams">
+          <span>{{ match.home_team }}</span>
+          <span class="vs">vs</span>
+          <span>{{ match.away_team }}</span>
+        </div>
+        {% if match.home_score is not none %}
+        <div class="match-result">Final: {{ match.home_score }} — {{ match.away_score }}</div>
+        {% else %}
+        <form method="POST" class="predict-form">
+          <input type="hidden" name="match_id" value="{{ match.id }}">
+          <input type="number" name="home_score" min="0" max="20" placeholder="0">
+          <span>—</span>
+          <input type="number" name="away_score" min="0" max="20" placeholder="0">
+          <button type="submit">Save Result</button>
+        </form>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </main>
+</body>
+</html>
