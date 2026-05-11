@@ -43,16 +43,62 @@ def load_user(user_id):
 def seed_matches():
     if Match.query.count() == 0:
         matches = [
-            Match(home_team="Mexico", away_team="Poland", match_date="2026-06-11", stage="Group A"),
-            Match(home_team="Argentina", away_team="Saudi Arabia", match_date="2026-06-12", stage="Group C"),
-            Match(home_team="France", away_team="Australia", match_date="2026-06-13", stage="Group D"),
-            Match(home_team="Brazil", away_team="Serbia", match_date="2026-06-14", stage="Group G"),
-            Match(home_team="England", away_team="Iran", match_date="2026-06-15", stage="Group B"),
-            Match(home_team="Portugal", away_team="Ghana", match_date="2026-06-16", stage="Group H"),
-            Match(home_team="Spain", away_team="Costa Rica", match_date="2026-06-17", stage="Group E"),
-            Match(home_team="Germany", away_team="Japan", match_date="2026-06-18", stage="Group E"),
-            Match(home_team="USA", away_team="Wales", match_date="2026-06-19", stage="Group B"),
-            Match(home_team="Netherlands", away_team="Senegal", match_date="2026-06-20", stage="Group A"),
+            # Group A
+            Match(home_team="Mexico", away_team="South Africa", match_date="2026-06-11", stage="Group A"),
+            Match(home_team="South Korea", away_team="Czechia", match_date="2026-06-12", stage="Group A"),
+            Match(home_team="Mexico", away_team="Czechia", match_date="2026-06-15", stage="Group A"),
+            Match(home_team="South Africa", away_team="South Korea", match_date="2026-06-15", stage="Group A"),
+            Match(home_team="South Africa", away_team="Czechia", match_date="2026-06-19", stage="Group A"),
+            Match(home_team="Mexico", away_team="South Korea", match_date="2026-06-19", stage="Group A"),
+            # Group B
+            Match(home_team="Canada", away_team="Bosnia-Herzegovina", match_date="2026-06-12", stage="Group B"),
+            Match(home_team="Switzerland", away_team="Qatar", match_date="2026-06-12", stage="Group B"),
+            Match(home_team="Canada", away_team="Qatar", match_date="2026-06-16", stage="Group B"),
+            Match(home_team="Switzerland", away_team="Bosnia-Herzegovina", match_date="2026-06-16", stage="Group B"),
+            Match(home_team="Canada", away_team="Switzerland", match_date="2026-06-20", stage="Group B"),
+            Match(home_team="Qatar", away_team="Bosnia-Herzegovina", match_date="2026-06-20", stage="Group B"),
+            # Group C
+            Match(home_team="Argentina", away_team="Albania", match_date="2026-06-12", stage="Group C"),
+            Match(home_team="Ukraine", away_team="Chile", match_date="2026-06-13", stage="Group C"),
+            Match(home_team="Argentina", away_team="Chile", match_date="2026-06-16", stage="Group C"),
+            Match(home_team="Ukraine", away_team="Albania", match_date="2026-06-17", stage="Group C"),
+            Match(home_team="Argentina", away_team="Ukraine", match_date="2026-06-20", stage="Group C"),
+            Match(home_team="Chile", away_team="Albania", match_date="2026-06-20", stage="Group C"),
+            # Group D
+            Match(home_team="USA", away_team="Paraguay", match_date="2026-06-12", stage="Group D"),
+            Match(home_team="Australia", away_team="Turkiye", match_date="2026-06-13", stage="Group D"),
+            Match(home_team="USA", away_team="Australia", match_date="2026-06-17", stage="Group D"),
+            Match(home_team="Turkiye", away_team="Paraguay", match_date="2026-06-17", stage="Group D"),
+            Match(home_team="USA", away_team="Turkiye", match_date="2026-06-21", stage="Group D"),
+            Match(home_team="Paraguay", away_team="Australia", match_date="2026-06-21", stage="Group D"),
+            # Group E
+            Match(home_team="Spain", away_team="Brazil", match_date="2026-06-13", stage="Group E"),
+            Match(home_team="Japan", away_team="Curacao", match_date="2026-06-14", stage="Group E"),
+            Match(home_team="Spain", away_team="Curacao", match_date="2026-06-17", stage="Group E"),
+            Match(home_team="Japan", away_team="Brazil", match_date="2026-06-18", stage="Group E"),
+            Match(home_team="Spain", away_team="Japan", match_date="2026-06-21", stage="Group E"),
+            Match(home_team="Brazil", away_team="Curacao", match_date="2026-06-21", stage="Group E"),
+            # Group F
+            Match(home_team="France", away_team="Algeria", match_date="2026-06-14", stage="Group F"),
+            Match(home_team="Belgium", away_team="New Zealand", match_date="2026-06-14", stage="Group F"),
+            Match(home_team="France", away_team="New Zealand", match_date="2026-06-18", stage="Group F"),
+            Match(home_team="Belgium", away_team="Algeria", match_date="2026-06-18", stage="Group F"),
+            Match(home_team="France", away_team="Belgium", match_date="2026-06-22", stage="Group F"),
+            Match(home_team="Algeria", away_team="New Zealand", match_date="2026-06-22", stage="Group F"),
+            # Group G
+            Match(home_team="England", away_team="Croatia", match_date="2026-06-14", stage="Group G"),
+            Match(home_team="Senegal", away_team="Sweden", match_date="2026-06-15", stage="Group G"),
+            Match(home_team="England", away_team="Sweden", match_date="2026-06-18", stage="Group G"),
+            Match(home_team="Senegal", away_team="Croatia", match_date="2026-06-19", stage="Group G"),
+            Match(home_team="England", away_team="Senegal", match_date="2026-06-22", stage="Group G"),
+            Match(home_team="Croatia", away_team="Sweden", match_date="2026-06-22", stage="Group G"),
+            # Group H
+            Match(home_team="Portugal", away_team="DR Congo", match_date="2026-06-15", stage="Group H"),
+            Match(home_team="Germany", away_team="Iraq", match_date="2026-06-15", stage="Group H"),
+            Match(home_team="Portugal", away_team="Iraq", match_date="2026-06-19", stage="Group H"),
+            Match(home_team="Germany", away_team="DR Congo", match_date="2026-06-19", stage="Group H"),
+            Match(home_team="Portugal", away_team="Germany", match_date="2026-06-23", stage="Group H"),
+            Match(home_team="DR Congo", away_team="Iraq", match_date="2026-06-23", stage="Group H"),
         ]
         db.session.add_all(matches)
         db.session.commit()
