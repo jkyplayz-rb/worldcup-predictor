@@ -17,6 +17,11 @@
   </header>
   <main>
     <div class="points-banner">
+      <div class="group-filter">
+        {% for g in groups %}
+      <a href="/?group={{ g }}" class="filter-btn {{ 'active' if selected_group == g }}">{{ g }}</a>
+        {% endfor %}
+      </div>
       <span>Welcome, {{ current_user.username }}</span>
       <span>🏆 Total Points: {{ total_points }}</span>
     </div>
