@@ -106,10 +106,25 @@ def seed_matches():
 @app.route('/')
 @login_required
 def index():
-    matches = Match.query.order_by(Match.match_date).all()
+    group = request.args.get('group', 'All')
+    groups = ['All', 'Group A', 'Group B', 'Group C', 'Group D', 
+              'Group E', 'Group F', 'Group G', 'Group H']
+    
+    if group == 'All':
+        matches = Match.query.order_by(Match.match_date).all()
+    else:
+        matches = Match.query.filter_by(stage=group).order_by(Match.match_date).all()
+    
     user_predictions = {p.match_id: p for p in Prediction.query.filter_by(user_id=current_user.id).all()}
     total_points = sum(p.points for p in user_predictions.values())
-    return render_template('index.html', matches=matches, predictions=user_predictions, total_points=total_points)
+    
+    return render_template('index.html', 
+        matches=matches, 
+        predictions=user_predictions, 
+        total_points=total_points,
+        groups=groups,
+        selected_group=group
+    )
 
 @app.route('/predict/<int:match_id>', methods=['POST'])
 @login_required
