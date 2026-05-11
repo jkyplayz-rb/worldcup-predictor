@@ -175,3 +175,23 @@ tr:hover td { background: #222; }
 
 .filter-btn:hover { border-color: #4caf50; color: #4caf50; }
 .filter-btn.active { background: #1a6b1a; border-color: #1a6b1a; color: white; }
+
+.countdown-banner {
+  background: #0f3d0f;
+  border-bottom: 1px solid #1a6b1a;
+  padding: 10px 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: #aaa;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.countdown-timer {
+  font-weight: 700;
+  color: #4caf50;
+  font-size: 15px;
+  letter-spacing: .03em;
+}
