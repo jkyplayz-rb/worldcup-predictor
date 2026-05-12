@@ -7,6 +7,28 @@
 </head>
 <body>
   <header>
+    <button id="theme-toggle" onclick="toggleTheme()">☀️ Light</button>
+
+<script>
+  function toggleTheme() {
+    const body = document.body;
+    const btn = document.getElementById('theme-toggle');
+    if (body.classList.contains('light')) {
+      body.classList.remove('light');
+      btn.textContent = '☀️ Light';
+      localStorage.setItem('theme', 'dark');
+    } else {
+      body.classList.add('light');
+      btn.textContent = '🌙 Dark';
+      localStorage.setItem('theme', 'light');
+    }
+  }
+
+  if (localStorage.getItem('theme') === 'light') {
+    document.body.classList.add('light');
+    document.getElementById('theme-toggle').textContent = '🌙 Dark';
+  }
+</script>
     <h1>⚽ World Cup Predictor</h1>
     <nav>
       <a href="/">Matches</a>
