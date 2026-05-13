@@ -38,6 +38,38 @@
     </nav>
   </header>
   <div class="countdown-banner">
+  <div class="fun-fact-banner">
+  <span class="fun-fact-label">⚽ World Cup Fact</span>
+  <span id="fun-fact"></span>
+</div>
+
+<script>
+  const facts = [
+    "🏆 Brazil is the most successful World Cup nation with 5 titles (1958, 1962, 1970, 1994, 2002).",
+    "👟 Just Fontaine scored 13 goals in the 1958 World Cup — still the all-time record for a single tournament.",
+    "🧤 Peter Shilton holds the record for most World Cup appearances by a goalkeeper with 17 games.",
+    "🌍 The 2026 World Cup will be the first ever with 48 teams, up from 32.",
+    "⚡ Hakan Şükür scored the fastest goal in World Cup history — just 11 seconds vs South Korea in 2002.",
+    "👴 Roger Milla of Cameroon became the oldest World Cup scorer at 42 years old in 1994.",
+    "👶 Pelé became the youngest World Cup winner ever at just 17 years old in 1958.",
+    "🎯 Germany and Brazil have played in the most World Cup semifinals with 13 each.",
+    "🤝 The 1994 final between Brazil and Italy was the first ever decided by a penalty shootout.",
+    "📺 The 2022 World Cup in Qatar was the first held in November-December instead of summer.",
+    "🏟️ The 1950 World Cup final was watched by 199,854 fans at Maracanã — the largest ever attendance.",
+    "🌟 Ronaldo (Brazil) is the all-time top scorer in World Cup history with 15 goals across 4 tournaments.",
+    "❌ The host nation has never been eliminated in the group stage until South Africa in 2010.",
+    "🔴 The most red cards in a single match was 4, between Portugal and Netherlands in 2006.",
+    "🇫🇷 France won the 1998 World Cup on home soil, beating Brazil 3-0 in the final.",
+    "🐙 Paul the Octopus correctly predicted all 8 of Germany's 2010 World Cup matches.",
+    "💛 The record for most yellow cards in a tournament is 28, set at the 2006 World Cup in Germany.",
+    "🎂 The youngest player ever at a World Cup was Norman Whiteside of Northern Ireland at 17 years and 41 days in 1982.",
+    "🏅 Italy and Brazil share the record for most World Cup final appearances with 7 each.",
+    "⚽ The highest scoring World Cup game was Austria 7-5 Switzerland in 1954.",
+  ];
+
+  const fact = facts[Math.floor(Math.random() * facts.length)];
+  document.getElementById('fun-fact').textContent = fact;
+</script>
   <span>⚽ World Cup 2026 kicks off June 11 in Mexico City</span>
   <span id="countdown" class="countdown-timer"></span>
 </div>
