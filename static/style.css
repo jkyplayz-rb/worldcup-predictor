@@ -265,3 +265,29 @@ tr:hover td { background: #222; }
 }
 
 #theme-toggle:hover { background: rgba(255,255,255,0.1); }
+
+.fun-fact-banner {
+  background: #111;
+  border-bottom: 1px solid #222;
+  padding: 10px 2rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: #ccc;
+}
+
+.fun-fact-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: #4caf50;
+  white-space: nowrap;
+}
+
+body.light .fun-fact-banner {
+  background: #f0f7f0;
+  border-color: #d0e8d0;
+  color: #333;
+}
