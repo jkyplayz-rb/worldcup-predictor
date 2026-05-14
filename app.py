@@ -178,6 +178,11 @@ def leaderboard():
     scores.sort(key=lambda x: x['points'], reverse=True)
     return render_template('leaderboard.html', scores=scores)
 
+@app.route('/rankings')
+@login_required
+def rankings():
+    return render_template('rankings.html')
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
