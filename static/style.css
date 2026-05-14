@@ -291,3 +291,52 @@ body.light .fun-fact-banner {
   border-color: #d0e8d0;
   color: #333;
 }
+
+.fifa-rankings-section {
+  padding: 2rem;
+}
+
+.fifa-rankings-section h2 {
+  margin-bottom: 1rem;
+  font-size: 24px;
+}
+
+.rankings-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #111;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.rankings-table th,
+.rankings-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #222;
+  text-align: left;
+}
+
+.rankings-table th {
+  background: #1b1b1b;
+  color: #4caf50;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: .05em;
+}
+
+.rankings-table tr:hover {
+  background: #1e1e1e;
+}
+
+body.light .rankings-table {
+  background: white;
+  color: #222;
+}
+
+body.light .rankings-table th {
+  background: #f0f0f0;
+}
+
+body.light .rankings-table tr:hover {
+  background: #f7f7f7;
+}
