@@ -2,92 +2,100 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>FIFA Rankings</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <title>FIFA Rankings — World Cup Predictor</title>
+  <link rel="stylesheet" href="/static/style.css">
 </head>
-
 <body>
+  <header>
+    <button id="theme-toggle" onclick="toggleTheme()">☀️ Light</button>
+    <script>
+      function toggleTheme() {
+        const body = document.body;
+        const btn = document.getElementById('theme-toggle');
+        if (body.classList.contains('light')) {
+          body.classList.remove('light');
+          btn.textContent = '☀️ Light';
+          localStorage.setItem('theme', 'dark');
+        } else {
+          body.classList.add('light');
+          btn.textContent = '🌙 Dark';
+          localStorage.setItem('theme', 'light');
+        }
+      }
+      if (localStorage.getItem('theme') === 'light') {
+        document.body.classList.add('light');
+        document.getElementById('theme-toggle').textContent = '🌙 Dark';
+      }
+    </script>
+    <h1>⚽ World Cup Predictor</h1>
+    <nav>
+      <a href="/">Matches</a>
+      <a href="/results">Results</a>
+      <a href="/leaderboard">Leaderboard</a>
+      <a href="/rankings">Rankings</a>
+      <a href="/logout">Logout</a>
+    </nav>
+  </header>
 
-  <nav>
-    <a href="/">Home</a>
-    <a href="/matches">Matches</a>
-    <a href="/results">Results</a>
-    <a href="/leaderboard">Leaderboard</a>
-    <a href="/rankings">Rankings</a>
-  </nav>
-
-  <div class="fifa-rankings-section">
-    <h1>🌍 FIFA Rankings — Qualified Nations</h1>
-
-    <table class="rankings-table">
-      <thead>
-        <tr>
-          <th>Rank</th>
-          <th>Country</th>
-          <th>Points</th>
-        </tr>
-      </thead>
-
-      <tbody id="fifa-rankings-body"></tbody>
-    </table>
-  </div>
+  <main>
+    <h2 class="section-title">🌍 FIFA Rankings — Qualified Nations</h2>
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Country</th>
+            <th>FIFA Points</th>
+          </tr>
+        </thead>
+        <tbody id="rankings-body"></tbody>
+      </table>
+    </div>
+  </main>
 
   <script>
-  const fifaRankings = [
-  { rank: 1, country: "France", points: 1877 },
-  { rank: 2, country: "Spain", points: 1876 },
-  { rank: 3, country: "Argentina", points: 1874 },
-  { rank: 4, country: "England", points: 1815 },
-  { rank: 5, country: "Portugal", points: 1770 },
-  { rank: 6, country: "Brazil", points: 1768 },
-  { rank: 7, country: "Netherlands", points: 1752 },
-  { rank: 8, country: "Morocco", points: 1740 },
-  { rank: 9, country: "Belgium", points: 1735 },
-  { rank: 10, country: "Germany", points: 1710 },
-  { rank: 11, country: "Croatia", points: 1698 },
-  { rank: 12, country: "Italy", points: 1689 },
-  { rank: 13, country: "Colombia", points: 1665 },
-  { rank: 14, country: "Senegal", points: 1652 },
-  { rank: 15, country: "Mexico", points: 1645 },
-  { rank: 16, country: "USA", points: 1640 },
-  { rank: 17, country: "Uruguay", points: 1633 },
-  { rank: 18, country: "Japan", points: 1621 },
-  { rank: 19, country: "Switzerland", points: 1612 },
-  { rank: 20, country: "Denmark", points: 1605 },
-  { rank: 21, country: "Iran", points: 1598 },
-  { rank: 22, country: "Austria", points: 1588 },
-  { rank: 23, country: "Ecuador", points: 1580 },
-  { rank: 24, country: "Ukraine", points: 1570 },
-  { rank: 25, country: "South Korea", points: 1562 },
-  { rank: 26, country: "Sweden", points: 1553 },
-  { rank: 27, country: "Australia", points: 1544 },
-  { rank: 28, country: "Turkiye", points: 1538 },
-  { rank: 29, country: "Paraguay", points: 1526 },
-  { rank: 30, country: "Canada", points: 1518 },
-  { rank: 31, country: "Norway", points: 1510 },
-  { rank: 32, country: "Poland", points: 1502 },
-  { rank: 33, country: "Panama", points: 1492 },
-  { rank: 34, country: "Czechia", points: 1485 },
-  { rank: 35, country: "Serbia", points: 1478 },
-  { rank: 36, country: "Scotland", points: 1470 },
-  { rank: 37, country: "Hungary", points: 1463 },
-  { rank: 38, country: "Algeria", points: 1458 },
-  { rank: 39, country: "Tunisia", points: 1450 },
-  { rank: 40, country: "Cameroon", points: 1442 },
-  { rank: 41, country: "South Africa", points: 1436 },
-  { rank: 42, country: "Nigeria", points: 1428 },
-  { rank: 43, country: "Egypt", points: 1420 },
-  { rank: 44, country: "Ghana", points: 1412 },
-  { rank: 45, country: "Qatar", points: 1404 },
-  { rank: 46, country: "Saudi Arabia", points: 1398 },
-  { rank: 47, country: "Iraq", points: 1390 },
-  { rank: 48, country: "New Zealand", points: 1382 }
-];
+    const fifaRankings = [
+      { rank: 1, country: "France", points: 1877 },
+      { rank: 2, country: "Spain", points: 1876 },
+      { rank: 3, country: "Argentina", points: 1874 },
+      { rank: 4, country: "England", points: 1815 },
+      { rank: 5, country: "Portugal", points: 1770 },
+      { rank: 6, country: "Brazil", points: 1768 },
+      { rank: 7, country: "Netherlands", points: 1752 },
+      { rank: 8, country: "Morocco", points: 1740 },
+      { rank: 9, country: "Belgium", points: 1735 },
+      { rank: 10, country: "Germany", points: 1710 },
+      { rank: 11, country: "Croatia", points: 1698 },
+      { rank: 12, country: "Senegal", points: 1652 },
+      { rank: 13, country: "Mexico", points: 1645 },
+      { rank: 14, country: "USA", points: 1640 },
+      { rank: 15, country: "Japan", points: 1621 },
+      { rank: 16, country: "Switzerland", points: 1612 },
+      { rank: 17, country: "Ukraine", points: 1570 },
+      { rank: 18, country: "South Korea", points: 1562 },
+      { rank: 19, country: "Sweden", points: 1553 },
+      { rank: 20, country: "Australia", points: 1544 },
+      { rank: 21, country: "Turkiye", points: 1538 },
+      { rank: 22, country: "Paraguay", points: 1526 },
+      { rank: 23, country: "Canada", points: 1518 },
+      { rank: 24, country: "Czechia", points: 1485 },
+      { rank: 25, country: "Serbia", points: 1478 },
+      { rank: 26, country: "Algeria", points: 1458 },
+      { rank: 27, country: "South Africa", points: 1436 },
+      { rank: 28, country: "Qatar", points: 1404 },
+      { rank: 29, country: "Saudi Arabia", points: 1398 },
+      { rank: 30, country: "Iraq", points: 1390 },
+      { rank: 31, country: "New Zealand", points: 1382 },
+      { rank: 32, country: "DR Congo", points: 1375 },
+      { rank: 33, country: "Albania", points: 1368 },
+      { rank: 34, country: "Bosnia-Herzegovina", points: 1360 },
+      { rank: 35, country: "Curacao", points: 1340 },
+      { rank: 36, country: "South Korea", points: 1562 },
+    ];
 
-    const rankingsBody = document.getElementById('fifa-rankings-body');
-
+    const body = document.getElementById('rankings-body');
     fifaRankings.forEach(team => {
-      rankingsBody.innerHTML += `
+      body.innerHTML += `
         <tr>
           <td>#${team.rank}</td>
           <td>${team.country}</td>
@@ -96,6 +104,5 @@
       `;
     });
   </script>
-
 </body>
 </html>
