@@ -3,41 +3,135 @@
 <head>
   <meta charset="UTF-8">
   <title>Leaderboard — World Cup Predictor</title>
-  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>* { font-family: 'Inter', sans-serif; }</style>
 </head>
-<body>
-  <header>
-    <h1>⚽ World Cup Predictor</h1>
-    <nav>
-      <a href="/">Matches</a>
-      <a href="/results">Results</a>
-      <a href="/leaderboard">Leaderboard</a>
-      <a href="/rankings">Rankings</a>
-      <a href="/logout">Logout</a>
+
+<body class="bg-[#0e0e0e] text-white min-h-screen">
+
+  <!-- Header -->
+  <header class="bg-[#141414] border-b border-[#1f1f1f] px-6 py-3 flex items-center justify-between sticky top-0 z-50">
+    <div class="flex items-center gap-2">
+      <div class="w-7 h-7 bg-blue-600 rounded-md flex items-center justify-center text-xs font-black">WC</div>
+      <span class="font-semibold text-sm tracking-tight">World Cup Predictor</span>
+    </div>
+    <nav class="flex items-center gap-1 text-sm">
+      <a href="/" class="px-3 py-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/5 transition text-xs font-medium">Matches</a>
+      <a href="/results" class="px-3 py-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/5 transition text-xs font-medium">Results</a>
+      <a href="/leaderboard" class="px-3 py-1.5 rounded-md text-white transition text-xs font-medium">Leaderboard</a>
+      <a href="/rankings" class="px-3 py-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/5 transition text-xs font-medium">Rankings</a>
+      <div class="w-px h-4 bg-zinc-700 mx-1"></div>
+      <span class="text-zinc-500 text-xs px-2">{{ current_user.username }}</span>
+      <a href="/logout" class="px-3 py-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/5 transition text-xs font-medium">Logout</a>
     </nav>
   </header>
-  <main>
-    <h2 class="section-title">Leaderboard</h2>
-    <div class="card">
-      <table>
-        <thead>
-          <tr>
-            <th>Rank</th>
-            <th>Player</th>
-            <th>Points</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for s in scores %}
-          <tr>
-            <td>{{ loop.index }}</td>
-            <td>{{ s.username }}</td>
-            <td>{{ s.points }} pts</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+
+  <!-- Countdown Bar -->
+  <div class="bg-blue-600/10 border-b border-blue-600/20 px-6 py-2 flex items-center justify-between">
+    <span class="text-zinc-500 text-xs">2026 FIFA World Cup — Mexico City opener</span>
+    <span id="countdown" class="text-blue-400 text-xs font-semibold tabular-nums"></span>
+  </div>
+
+  <!-- Fun Fact Bar -->
+  <div class="bg-[#0a0a0a] border-b border-[#1a1a1a] px-6 py-2 flex items-center gap-2">
+    <span class="text-[10px] font-semibold text-zinc-600 uppercase tracking-widest whitespace-nowrap">Did you know</span>
+    <span class="w-px h-3 bg-zinc-700"></span>
+    <span id="fun-fact" class="text-zinc-500 text-xs"></span>
+  </div>
+
+  <main class="max-w-3xl mx-auto px-4 py-6">
+
+    <div class="mb-6">
+      <p class="text-[10px] font-semibold text-zinc-600 uppercase tracking-widest mb-1">Rankings</p>
+      <h1 class="text-lg font-bold">Leaderboard</h1>
     </div>
+
+    <div class="bg-[#141414] border border-[#1f1f1f] rounded-2xl overflow-hidden">
+      <div class="grid grid-cols-3 px-5 py-3 border-b border-[#1f1f1f]">
+        <span class="text-[10px] font-semibold text-zinc-600 uppercase tracking-widest">Rank</span>
+        <span class="text-[10px] font-semibold text-zinc-600 uppercase tracking-widest">Player</span>
+        <span class="text-[10px] font-semibold text-zinc-600 uppercase tracking-widest text-right">Points</span>
+      </div>
+
+      {% for s in scores %}
+      <div class="grid grid-cols-3 px-5 py-4 border-b border-[#1a1a1a] hover:bg-white/[0.02] transition
+        {{ 'bg-blue-600/5' if s.username == current_user.username }}">
+
+        <div class="flex items-center gap-3">
+          {% if loop.index == 1 %}
+          <span class="text-yellow-400 font-bold text-sm">1</span>
+          {% elif loop.index == 2 %}
+          <span class="text-zinc-400 font-bold text-sm">2</span>
+          {% elif loop.index == 3 %}
+          <span class="text-orange-600 font-bold text-sm">3</span>
+          {% else %}
+          <span class="text-zinc-600 font-medium text-sm">{{ loop.index }}</span>
+          {% endif %}
+        </div>
+
+        <div class="flex items-center gap-2">
+          <span class="text-sm font-medium {{ 'text-blue-400' if s.username == current_user.username else 'text-white' }}">
+            {{ s.username }}
+          </span>
+          {% if s.username == current_user.username %}
+          <span class="text-[10px] text-blue-600 font-semibold uppercase tracking-wider">You</span>
+          {% endif %}
+        </div>
+
+        <div class="text-right">
+          <span class="text-sm font-bold {{ 'text-blue-400' if s.username == current_user.username else 'text-white' }}">
+            {{ s.points }}
+          </span>
+          <span class="text-zinc-600 text-xs ml-1">pts</span>
+        </div>
+
+      </div>
+      {% endfor %}
+
+      {% if not scores %}
+      <div class="px-5 py-8 text-center text-zinc-600 text-sm">
+        No predictions made yet.
+      </div>
+      {% endif %}
+    </div>
+
   </main>
+
+  <script>
+    const facts = [
+      "Brazil is the most successful World Cup nation with 5 titles — 1958, 1962, 1970, 1994 and 2002.",
+      "Just Fontaine scored 13 goals at the 1958 World Cup — still the all-time single tournament record.",
+      "Peter Shilton holds the record for most World Cup appearances by a goalkeeper with 17 games.",
+      "The 2026 World Cup will be the first ever with 48 teams, up from 32.",
+      "Hakan Sukur scored the fastest goal in World Cup history — just 11 seconds against South Korea in 2002.",
+      "Roger Milla of Cameroon became the oldest World Cup scorer at 42 years old in 1994.",
+      "Pele became the youngest World Cup winner ever at just 17 years old in 1958.",
+      "The 1994 final between Brazil and Italy was the first ever decided by a penalty shootout.",
+      "The 2022 World Cup in Qatar was the first held in November and December instead of summer.",
+      "The 1950 World Cup final was watched by 199,854 fans at Maracana — the largest ever attendance.",
+      "The host nation had never been eliminated in the group stage until South Africa in 2010.",
+      "The most red cards in a single match was 4, between Portugal and Netherlands in 2006.",
+      "France won the 1998 World Cup on home soil, beating Brazil 3-0 in the final.",
+      "Paul the Octopus correctly predicted all 8 of Germany's 2010 World Cup matches.",
+      "The youngest player ever at a World Cup was Norman Whiteside at 17 years and 41 days in 1982.",
+      "The highest scoring World Cup game was Austria 7-5 Switzerland in 1954.",
+    ];
+    document.getElementById('fun-fact').textContent = facts[Math.floor(Math.random() * facts.length)];
+
+    const kickoff = new Date('2026-06-11T20:00:00');
+    function updateCountdown() {
+      const diff = kickoff - new Date();
+      if (diff <= 0) { document.getElementById('countdown').textContent = "Live now"; return; }
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      document.getElementById('countdown').textContent = `${d}d ${h}h ${m}m ${s}s`;
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+
 </body>
 </html>
