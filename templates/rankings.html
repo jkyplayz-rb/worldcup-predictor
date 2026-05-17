@@ -3,106 +3,161 @@
 <head>
   <meta charset="UTF-8">
   <title>FIFA Rankings — World Cup Predictor</title>
-  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>* { font-family: 'Inter', sans-serif; }</style>
 </head>
-<body>
-  <header>
-    <button id="theme-toggle" onclick="toggleTheme()">☀️ Light</button>
-    <script>
-      function toggleTheme() {
-        const body = document.body;
-        const btn = document.getElementById('theme-toggle');
-        if (body.classList.contains('light')) {
-          body.classList.remove('light');
-          btn.textContent = '☀️ Light';
-          localStorage.setItem('theme', 'dark');
-        } else {
-          body.classList.add('light');
-          btn.textContent = '🌙 Dark';
-          localStorage.setItem('theme', 'light');
-        }
-      }
-      if (localStorage.getItem('theme') === 'light') {
-        document.body.classList.add('light');
-        document.getElementById('theme-toggle').textContent = '🌙 Dark';
-      }
-    </script>
-    <h1>⚽ World Cup Predictor</h1>
-    <nav>
-      <a href="/">Matches</a>
-      <a href="/results">Results</a>
-      <a href="/leaderboard">Leaderboard</a>
-      <a href="/rankings">Rankings</a>
-      <a href="/logout">Logout</a>
+
+<body class="bg-[#0e0e0e] text-white min-h-screen">
+
+  <header class="bg-[#141414] border-b border-[#1f1f1f] px-6 py-3 flex items-center justify-between sticky top-0 z-50">
+    <div class="flex items-center gap-2">
+      <div class="w-7 h-7 bg-blue-600 rounded-md flex items-center justify-center text-xs font-black">WC</div>
+      <span class="font-semibold text-sm tracking-tight">World Cup Predictor</span>
+    </div>
+    <nav class="flex items-center gap-1 text-sm">
+      <a href="/" class="px-3 py-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/5 transition text-xs font-medium">Matches</a>
+      <a href="/results" class="px-3 py-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/5 transition text-xs font-medium">Results</a>
+      <a href="/leaderboard" class="px-3 py-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/5 transition text-xs font-medium">Leaderboard</a>
+      <a href="/rankings" class="px-3 py-1.5 rounded-md text-white transition text-xs font-medium">Rankings</a>
+      <div class="w-px h-4 bg-zinc-700 mx-1"></div>
+      <span class="text-zinc-500 text-xs px-2">{{ current_user.username }}</span>
+      <a href="/logout" class="px-3 py-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/5 transition text-xs font-medium">Logout</a>
     </nav>
   </header>
 
-  <main>
-    <h2 class="section-title">🌍 FIFA Rankings — Qualified Nations</h2>
-    <div class="card">
-      <table>
-        <thead>
-          <tr>
-            <th>Rank</th>
-            <th>Country</th>
-            <th>FIFA Points</th>
-          </tr>
-        </thead>
-        <tbody id="rankings-body"></tbody>
-      </table>
+  <div class="bg-blue-600/10 border-b border-blue-600/20 px-6 py-2 flex items-center justify-between">
+    <span class="text-zinc-500 text-xs">2026 FIFA World Cup — Mexico City opener</span>
+    <span id="countdown" class="text-blue-400 text-xs font-semibold tabular-nums"></span>
+  </div>
+
+  <div class="bg-[#0a0a0a] border-b border-[#1a1a1a] px-6 py-2 flex items-center gap-2">
+    <span class="text-[10px] font-semibold text-zinc-600 uppercase tracking-widest whitespace-nowrap">Did you know</span>
+    <span class="w-px h-3 bg-zinc-700"></span>
+    <span id="fun-fact" class="text-zinc-500 text-xs"></span>
+  </div>
+
+  <main class="max-w-3xl mx-auto px-4 py-6">
+
+    <div class="mb-6">
+      <p class="text-[10px] font-semibold text-zinc-600 uppercase tracking-widest mb-1">FIFA</p>
+      <h1 class="text-lg font-bold">World Rankings — Qualified Nations</h1>
     </div>
+
+    <div class="bg-[#141414] border border-[#1f1f1f] rounded-2xl overflow-hidden">
+      <div class="grid grid-cols-3 px-5 py-3 border-b border-[#1f1f1f]">
+        <span class="text-[10px] font-semibold text-zinc-600 uppercase tracking-widest">Rank</span>
+        <span class="text-[10px] font-semibold text-zinc-600 uppercase tracking-widest">Country</span>
+        <span class="text-[10px] font-semibold text-zinc-600 uppercase tracking-widest text-right">FIFA Points</span>
+      </div>
+      <div id="rankings-body"></div>
+    </div>
+
   </main>
 
   <script>
     const fifaRankings = [
-      { rank: 1, country: "France", points: 1877 },
-      { rank: 2, country: "Spain", points: 1876 },
-      { rank: 3, country: "Argentina", points: 1874 },
-      { rank: 4, country: "England", points: 1815 },
-      { rank: 5, country: "Portugal", points: 1770 },
-      { rank: 6, country: "Brazil", points: 1768 },
-      { rank: 7, country: "Netherlands", points: 1752 },
-      { rank: 8, country: "Morocco", points: 1740 },
-      { rank: 9, country: "Belgium", points: 1735 },
-      { rank: 10, country: "Germany", points: 1710 },
-      { rank: 11, country: "Croatia", points: 1698 },
-      { rank: 12, country: "Senegal", points: 1652 },
-      { rank: 13, country: "Mexico", points: 1645 },
-      { rank: 14, country: "USA", points: 1640 },
-      { rank: 15, country: "Japan", points: 1621 },
-      { rank: 16, country: "Switzerland", points: 1612 },
-      { rank: 17, country: "Ukraine", points: 1570 },
-      { rank: 18, country: "South Korea", points: 1562 },
-      { rank: 19, country: "Sweden", points: 1553 },
-      { rank: 20, country: "Australia", points: 1544 },
-      { rank: 21, country: "Turkiye", points: 1538 },
-      { rank: 22, country: "Paraguay", points: 1526 },
-      { rank: 23, country: "Canada", points: 1518 },
-      { rank: 24, country: "Czechia", points: 1485 },
-      { rank: 25, country: "Serbia", points: 1478 },
-      { rank: 26, country: "Algeria", points: 1458 },
-      { rank: 27, country: "South Africa", points: 1436 },
-      { rank: 28, country: "Qatar", points: 1404 },
-      { rank: 29, country: "Saudi Arabia", points: 1398 },
-      { rank: 30, country: "Iraq", points: 1390 },
-      { rank: 31, country: "New Zealand", points: 1382 },
-      { rank: 32, country: "DR Congo", points: 1375 },
-      { rank: 33, country: "Albania", points: 1368 },
-      { rank: 34, country: "Bosnia-Herzegovina", points: 1360 },
-      { rank: 35, country: "Curacao", points: 1340 },
-      { rank: 36, country: "South Korea", points: 1562 },
+      { country: "France", points: 1876 },
+      { country: "Spain", points: 1869 },
+      { country: "Argentina", points: 1841 },
+      { country: "England", points: 1824 },
+      { country: "Portugal", points: 1792 },
+      { country: "Brazil", points: 1768 },
+      { country: "Netherlands", points: 1752 },
+      { country: "Morocco", points: 1740 },
+      { country: "Belgium", points: 1735 },
+      { country: "Germany", points: 1710 },
+      { country: "Croatia", points: 1698 },
+      { country: "Colombia", points: 1665 },
+      { country: "Senegal", points: 1652 },
+      { country: "Mexico", points: 1645 },
+      { country: "Switzerland", points: 1642 },
+      { country: "USA", points: 1640 },
+      { country: "Uruguay", points: 1633 },
+      { country: "Japan", points: 1621 },
+      { country: "Austria", points: 1612 },
+      { country: "Iran", points: 1598 },
+      { country: "Norway", points: 1590 },
+      { country: "Ecuador", points: 1580 },
+      { country: "Scotland", points: 1578 },
+      { country: "South Korea", points: 1562 },
+      { country: "Australia", points: 1544 },
+      { country: "Turkiye", points: 1538 },
+      { country: "Paraguay", points: 1526 },
+      { country: "Canada", points: 1518 },
+      { country: "Panama", points: 1492 },
+      { country: "Czechia", points: 1485 },
+      { country: "Algeria", points: 1458 },
+      { country: "Tunisia", points: 1450 },
+      { country: "South Africa", points: 1436 },
+      { country: "Egypt", points: 1420 },
+      { country: "Ivory Coast", points: 1412 },
+      { country: "Qatar", points: 1404 },
+      { country: "Saudi Arabia", points: 1398 },
+      { country: "Iraq", points: 1390 },
+      { country: "New Zealand", points: 1382 },
+      { country: "Ghana", points: 1380 },
+      { country: "Albania", points: 1368 },
+      { country: "Bosnia-Herzegovina", points: 1360 },
+      { country: "Cape Verde", points: 1350 },
+      { country: "Honduras", points: 1340 },
+      { country: "Jordan", points: 1320 },
+      { country: "Uzbekistan", points: 1298 },
+      { country: "Jamaica", points: 1290 },
+      { country: "Curacao", points: 1260 },
     ];
 
+    fifaRankings.sort((a, b) => b.points - a.points);
+
     const body = document.getElementById('rankings-body');
-    fifaRankings.forEach(team => {
+    fifaRankings.forEach((team, i) => {
+      let rankColor = 'text-zinc-600';
+      if (i === 0) rankColor = 'text-yellow-400';
+      else if (i === 1) rankColor = 'text-zinc-400';
+      else if (i === 2) rankColor = 'text-orange-600';
+
       body.innerHTML += `
-        <tr>
-          <td>#${team.rank}</td>
-          <td>${team.country}</td>
-          <td>${team.points}</td>
-        </tr>
+        <div class="grid grid-cols-3 px-5 py-3.5 border-b border-[#1a1a1a] hover:bg-white/[0.02] transition">
+          <span class="text-sm font-semibold ${rankColor}">#${i + 1}</span>
+          <span class="text-sm font-medium text-white">${team.country}</span>
+          <span class="text-sm font-semibold text-zinc-400 text-right">${team.points}</span>
+        </div>
       `;
     });
+
+    const facts = [
+      "Brazil is the most successful World Cup nation with 5 titles — 1958, 1962, 1970, 1994 and 2002.",
+      "Just Fontaine scored 13 goals at the 1958 World Cup — still the all-time single tournament record.",
+      "Peter Shilton holds the record for most World Cup appearances by a goalkeeper with 17 games.",
+      "The 2026 World Cup will be the first ever with 48 teams, up from 32.",
+      "Hakan Sukur scored the fastest goal in World Cup history — just 11 seconds against South Korea in 2002.",
+      "Roger Milla of Cameroon became the oldest World Cup scorer at 42 years old in 1994.",
+      "Pele became the youngest World Cup winner ever at just 17 years old in 1958.",
+      "The 1994 final between Brazil and Italy was the first ever decided by a penalty shootout.",
+      "The 2022 World Cup in Qatar was the first held in November and December instead of summer.",
+      "The 1950 World Cup final was watched by 199,854 fans at Maracana — the largest ever attendance.",
+      "The host nation had never been eliminated in the group stage until South Africa in 2010.",
+      "The most red cards in a single match was 4, between Portugal and Netherlands in 2006.",
+      "France won the 1998 World Cup on home soil, beating Brazil 3-0 in the final.",
+      "Paul the Octopus correctly predicted all 8 of Germany's 2010 World Cup matches.",
+      "The youngest player ever at a World Cup was Norman Whiteside at 17 years and 41 days in 1982.",
+      "The highest scoring World Cup game was Austria 7-5 Switzerland in 1954.",
+    ];
+    document.getElementById('fun-fact').textContent = facts[Math.floor(Math.random() * facts.length)];
+
+    const kickoff = new Date('2026-06-11T20:00:00');
+    function updateCountdown() {
+      const diff = kickoff - new Date();
+      if (diff <= 0) { document.getElementById('countdown').textContent = "Live now"; return; }
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      document.getElementById('countdown').textContent = `${d}d ${h}h ${m}m ${s}s`;
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
   </script>
+
 </body>
 </html>

@@ -3,47 +3,144 @@
 <head>
   <meta charset="UTF-8">
   <title>Results — World Cup Predictor</title>
-  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>* { font-family: 'Inter', sans-serif; }</style>
 </head>
-<body>
-  <header>
-    <h1>⚽ World Cup Predictor</h1>
-    <nav>
-      <a href="/">Matches</a>
-      <a href="/results">Results</a>
-      <a href="/leaderboard">Leaderboard</a>
-      <a href="/rankings">Rankings</a>
-      <a href="/logout">Logout</a>
+
+<body class="bg-[#0e0e0e] text-white min-h-screen">
+
+  <!-- Header -->
+  <header class="bg-[#141414] border-b border-[#1f1f1f] px-6 py-3 flex items-center justify-between sticky top-0 z-50">
+    <div class="flex items-center gap-2">
+      <div class="w-7 h-7 bg-blue-600 rounded-md flex items-center justify-center text-xs font-black">WC</div>
+      <span class="font-semibold text-sm tracking-tight">World Cup Predictor</span>
+    </div>
+    <nav class="flex items-center gap-1 text-sm">
+      <a href="/" class="px-3 py-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/5 transition text-xs font-medium">Matches</a>
+      <a href="/results" class="px-3 py-1.5 rounded-md text-white transition text-xs font-medium">Results</a>
+      <a href="/leaderboard" class="px-3 py-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/5 transition text-xs font-medium">Leaderboard</a>
+      <a href="/rankings" class="px-3 py-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/5 transition text-xs font-medium">Rankings</a>
+      <div class="w-px h-4 bg-zinc-700 mx-1"></div>
+      <span class="text-zinc-500 text-xs px-2">{{ current_user.username }}</span>
+      <a href="/logout" class="px-3 py-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/5 transition text-xs font-medium">Logout</a>
     </nav>
   </header>
-  <main>
-    <h2 class="section-title">Enter Match Results</h2>
+
+  <!-- Countdown Bar -->
+  <div class="bg-blue-600/10 border-b border-blue-600/20 px-6 py-2 flex items-center justify-between">
+    <span class="text-zinc-500 text-xs">2026 FIFA World Cup — Mexico City opener</span>
+    <span id="countdown" class="text-blue-400 text-xs font-semibold tabular-nums"></span>
+  </div>
+
+  <!-- Fun Fact Bar -->
+  <div class="bg-[#0a0a0a] border-b border-[#1a1a1a] px-6 py-2 flex items-center gap-2">
+    <span class="text-[10px] font-semibold text-zinc-600 uppercase tracking-widest whitespace-nowrap">Did you know</span>
+    <span class="w-px h-3 bg-zinc-700"></span>
+    <span id="fun-fact" class="text-zinc-500 text-xs"></span>
+  </div>
+
+  <main class="max-w-3xl mx-auto px-4 py-6">
+
+    <div class="mb-6">
+      <p class="text-[10px] font-semibold text-zinc-600 uppercase tracking-widest mb-1">Admin</p>
+      <h1 class="text-lg font-bold">Enter Match Results</h1>
+    </div>
+
+    <!-- Flash Messages -->
     {% for message in get_flashed_messages() %}
-    <p class="flash">{{ message }}</p>
+    <div class="bg-blue-600/10 border border-blue-600/20 rounded-xl px-4 py-3 mb-4 text-sm text-blue-400">
+      {{ message }}
+    </div>
     {% endfor %}
-    <div class="matches">
+
+    <!-- Match Cards -->
+    <div class="flex flex-col gap-2">
       {% for match in matches %}
-      <div class="match-card">
-        <div class="match-meta">{{ match.stage }} · {{ match.match_date }}</div>
-        <div class="match-teams">
-          <span>{{ match.home_team }}</span>
-          <span class="vs">vs</span>
-          <span>{{ match.away_team }}</span>
+      <div class="bg-[#141414] border border-[#1f1f1f] rounded-xl px-5 py-4 hover:border-[#2a2a2a] transition">
+
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-[10px] text-zinc-600 font-medium uppercase tracking-wider">{{ match.stage }} · {{ match.match_date }}</span>
+          {% if match.home_score is not none %}
+          <span class="text-[10px] text-green-500 font-semibold uppercase tracking-wider">Final</span>
+          {% else %}
+          <span class="text-[10px] text-zinc-700 font-medium uppercase tracking-wider">Pending</span>
+          {% endif %}
         </div>
-        {% if match.home_score is not none %}
-        <div class="match-result">Final: {{ match.home_score }} — {{ match.away_score }}</div>
-        {% else %}
-        <form method="POST" class="predict-form">
-          <input type="hidden" name="match_id" value="{{ match.id }}">
-          <input type="number" name="home_score" min="0" max="20" placeholder="0">
-          <span>—</span>
-          <input type="number" name="away_score" min="0" max="20" placeholder="0">
-          <button type="submit">Save Result</button>
-        </form>
-        {% endif %}
+
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-4 flex-1">
+            <span class="font-semibold text-sm">{{ match.home_team }}</span>
+            {% if match.home_score is not none %}
+            <div class="flex items-center gap-2">
+              <span class="text-lg font-bold tabular-nums">{{ match.home_score }}</span>
+              <span class="text-zinc-700 text-sm">—</span>
+              <span class="text-lg font-bold tabular-nums">{{ match.away_score }}</span>
+            </div>
+            {% else %}
+            <span class="text-zinc-700 text-xs">vs</span>
+            {% endif %}
+            <span class="font-semibold text-sm">{{ match.away_team }}</span>
+          </div>
+
+          {% if match.home_score is not none %}
+          <span class="text-xs text-zinc-600 italic">Result saved</span>
+          {% else %}
+          <form method="POST" class="flex items-center gap-2">
+            <input type="hidden" name="match_id" value="{{ match.id }}">
+            <input type="number" name="home_score" min="0" max="20" placeholder="0"
+              class="w-12 text-center bg-[#0e0e0e] border border-[#2a2a2a] rounded-lg py-1.5 text-sm font-semibold focus:outline-none focus:border-blue-600 text-white tabular-nums">
+            <span class="text-zinc-700 text-xs">—</span>
+            <input type="number" name="away_score" min="0" max="20" placeholder="0"
+              class="w-12 text-center bg-[#0e0e0e] border border-[#2a2a2a] rounded-lg py-1.5 text-sm font-semibold focus:outline-none focus:border-blue-600 text-white tabular-nums">
+            <button type="submit"
+              class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition">
+              Save
+            </button>
+          </form>
+          {% endif %}
+        </div>
+
       </div>
       {% endfor %}
     </div>
+
   </main>
+
+  <script>
+    const facts = [
+      "Brazil is the most successful World Cup nation with 5 titles — 1958, 1962, 1970, 1994 and 2002.",
+      "Just Fontaine scored 13 goals at the 1958 World Cup — still the all-time single tournament record.",
+      "Peter Shilton holds the record for most World Cup appearances by a goalkeeper with 17 games.",
+      "The 2026 World Cup will be the first ever with 48 teams, up from 32.",
+      "Hakan Sukur scored the fastest goal in World Cup history — just 11 seconds against South Korea in 2002.",
+      "Roger Milla of Cameroon became the oldest World Cup scorer at 42 years old in 1994.",
+      "Pele became the youngest World Cup winner ever at just 17 years old in 1958.",
+      "The 1994 final between Brazil and Italy was the first ever decided by a penalty shootout.",
+      "The 2022 World Cup in Qatar was the first held in November and December instead of summer.",
+      "The 1950 World Cup final was watched by 199,854 fans at Maracana — the largest ever attendance.",
+      "The host nation had never been eliminated in the group stage until South Africa in 2010.",
+      "The most red cards in a single match was 4, between Portugal and Netherlands in 2006.",
+      "France won the 1998 World Cup on home soil, beating Brazil 3-0 in the final.",
+      "Paul the Octopus correctly predicted all 8 of Germany's 2010 World Cup matches.",
+      "The youngest player ever at a World Cup was Norman Whiteside at 17 years and 41 days in 1982.",
+      "The highest scoring World Cup game was Austria 7-5 Switzerland in 1954.",
+    ];
+    document.getElementById('fun-fact').textContent = facts[Math.floor(Math.random() * facts.length)];
+
+    const kickoff = new Date('2026-06-11T20:00:00');
+    function updateCountdown() {
+      const diff = kickoff - new Date();
+      if (diff <= 0) { document.getElementById('countdown').textContent = "Live now"; return; }
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      document.getElementById('countdown').textContent = `${d}d ${h}h ${m}m ${s}s`;
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+
 </body>
 </html>
