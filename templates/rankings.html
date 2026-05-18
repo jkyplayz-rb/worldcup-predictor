@@ -56,6 +56,22 @@
   </main>
 
   <script>
+    const flagCodes = {
+      "France": "fr", "Spain": "es", "Argentina": "ar", "England": "gb-eng",
+      "Portugal": "pt", "Brazil": "br", "Netherlands": "nl", "Morocco": "ma",
+      "Belgium": "be", "Germany": "de", "Croatia": "hr", "Colombia": "co",
+      "Senegal": "sn", "Mexico": "mx", "Switzerland": "ch", "USA": "us",
+      "Uruguay": "uy", "Japan": "jp", "Austria": "at", "Iran": "ir",
+      "Norway": "no", "Ecuador": "ec", "Scotland": "gb-sct", "South Korea": "kr",
+      "Australia": "au", "Turkiye": "tr", "Paraguay": "py", "Canada": "ca",
+      "Panama": "pa", "Czechia": "cz", "Algeria": "dz", "Tunisia": "tn",
+      "South Africa": "za", "Egypt": "eg", "Ivory Coast": "ci", "Qatar": "qa",
+      "Saudi Arabia": "sa", "Iraq": "iq", "New Zealand": "nz", "Ghana": "gh",
+      "Albania": "al", "Bosnia-Herzegovina": "ba", "Cape Verde": "cv",
+      "Honduras": "hn", "Jordan": "jo", "Uzbekistan": "uz", "Jamaica": "jm",
+      "Curacao": "cw",
+    };
+
     const fifaRankings = [
       { country: "France", points: 1876 },
       { country: "Spain", points: 1869 },
@@ -116,10 +132,15 @@
       else if (i === 1) rankColor = 'text-zinc-400';
       else if (i === 2) rankColor = 'text-orange-600';
 
+      const code = flagCodes[team.country] || 'un';
+
       body.innerHTML += `
-        <div class="grid grid-cols-3 px-5 py-3.5 border-b border-[#1a1a1a] hover:bg-white/[0.02] transition">
+        <div class="grid grid-cols-3 px-5 py-3.5 border-b border-[#1a1a1a] hover:bg-white/[0.02] transition items-center">
           <span class="text-sm font-semibold ${rankColor}">#${i + 1}</span>
-          <span class="text-sm font-medium text-white">${team.country}</span>
+          <div class="flex items-center gap-2">
+            <img src="https://flagcdn.com/24x18/${code}.png" class="rounded-sm">
+            <span class="text-sm font-medium text-white">${team.country}</span>
+          </div>
           <span class="text-sm font-semibold text-zinc-400 text-right">${team.points}</span>
         </div>
       `;
