@@ -14,14 +14,13 @@
 
 <body class="bg-[#0e0e0e] text-white min-h-screen">
 
-  <!-- Header -->
   <header class="bg-[#141414] border-b border-[#1f1f1f] px-6 py-3 flex items-center justify-between sticky top-0 z-50">
     <div class="flex items-center gap-2">
       <div class="w-7 h-7 bg-blue-600 rounded-md flex items-center justify-center text-xs font-black">WC</div>
       <span class="font-semibold text-sm tracking-tight">World Cup Predictor</span>
     </div>
     <nav class="flex items-center gap-1 text-sm">
-      <a href="/" class="px-3 py-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/5 transition text-xs font-medium">Matches</a>
+      <a href="/" class="px-3 py-1.5 rounded-md text-white transition text-xs font-medium">Matches</a>
       <a href="/results" class="px-3 py-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/5 transition text-xs font-medium">Results</a>
       <a href="/leaderboard" class="px-3 py-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/5 transition text-xs font-medium">Leaderboard</a>
       <a href="/rankings" class="px-3 py-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/5 transition text-xs font-medium">Rankings</a>
@@ -31,13 +30,11 @@
     </nav>
   </header>
 
-  <!-- Countdown Bar -->
   <div class="bg-blue-600/10 border-b border-blue-600/20 px-6 py-2 flex items-center justify-between">
     <span class="text-zinc-500 text-xs">2026 FIFA World Cup — Mexico City opener</span>
     <span id="countdown" class="countdown-timer text-blue-400 text-xs font-semibold tabular-nums"></span>
   </div>
 
-  <!-- Fun Fact Bar -->
   <div class="bg-[#0a0a0a] border-b border-[#1a1a1a] px-6 py-2 flex items-center gap-2">
     <span class="text-[10px] font-semibold text-zinc-600 uppercase tracking-widest whitespace-nowrap">Did you know</span>
     <span class="w-px h-3 bg-zinc-700"></span>
@@ -46,7 +43,6 @@
 
   <main class="max-w-3xl mx-auto px-4 py-6">
 
-    <!-- Stats Row -->
     <div class="grid grid-cols-3 gap-3 mb-6">
       <div class="bg-[#141414] rounded-xl p-4 border border-[#1f1f1f]">
         <p class="text-[10px] text-zinc-600 uppercase tracking-widest mb-1">Player</p>
@@ -62,7 +58,6 @@
       </div>
     </div>
 
-    <!-- Group Filter -->
     <div class="flex gap-1.5 flex-wrap mb-5">
       {% for g in groups %}
       <a href="/?group={{ g }}"
@@ -73,12 +68,10 @@
       {% endfor %}
     </div>
 
-    <!-- Section Label -->
     <p class="text-[10px] font-semibold text-zinc-600 uppercase tracking-widest mb-3">
       {{ selected_group if selected_group != 'All' else 'All Matches' }}
     </p>
 
-    <!-- Match Cards -->
     <div class="flex flex-col gap-2">
       {% for match in matches %}
       <div class="bg-[#141414] border border-[#1f1f1f] rounded-xl px-5 py-4 hover:border-[#2a2a2a] transition">
@@ -94,7 +87,12 @@
 
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-4 flex-1">
-            <span class="font-semibold text-sm">{{ match.home_team }}</span>
+
+            <div class="flex items-center gap-2">
+              <img src="https://flagcdn.com/24x18/{{ flags.get(match.home_team, 'un') }}.png" class="rounded-sm">
+              <span class="font-semibold text-sm">{{ match.home_team }}</span>
+            </div>
+
             {% if match.home_score is not none %}
             <div class="flex items-center gap-2">
               <span class="text-lg font-bold tabular-nums">{{ match.home_score }}</span>
@@ -104,7 +102,12 @@
             {% else %}
             <span class="text-zinc-700 text-xs">vs</span>
             {% endif %}
-            <span class="font-semibold text-sm">{{ match.away_team }}</span>
+
+            <div class="flex items-center gap-2">
+              <img src="https://flagcdn.com/24x18/{{ flags.get(match.away_team, 'un') }}.png" class="rounded-sm">
+              <span class="font-semibold text-sm">{{ match.away_team }}</span>
+            </div>
+
           </div>
 
           {% if match.home_score is not none %}
