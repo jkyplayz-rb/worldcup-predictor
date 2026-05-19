@@ -16,7 +16,7 @@ TEAM_FLAGS = {
     "Scotland": "gb-sct", "Norway": "no", "Austria": "at", "Iran": "ir",
     "Saudi Arabia": "sa", "Egypt": "eg", "Tunisia": "tn", "Ivory Coast": "ci",
     "Ghana": "gh", "Cape Verde": "cv", "Jordan": "jo", "Uzbekistan": "uz",
-    "Jamaica": "jm", "Honduras": "hn", "Panama": "pa",
+    "Panama": "pa", "Haiti": "ht",
 }
 
 app = Flask(__name__)
@@ -51,6 +51,7 @@ class Prediction(db.Model):
     home_score = db.Column(db.Integer, nullable=False)
     away_score = db.Column(db.Integer, nullable=False)
     points = db.Column(db.Integer, default=0)
+    __table_args__ = (db.UniqueConstraint('user_id', 'match_id', name='unique_user_match'),)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -59,84 +60,72 @@ def load_user(user_id):
 def seed_matches():
     if Match.query.count() == 0:
         matches = [
-            # Group A
             Match(home_team="Mexico", away_team="South Africa", match_date="2026-06-11", stage="Group A"),
             Match(home_team="South Korea", away_team="Czechia", match_date="2026-06-12", stage="Group A"),
             Match(home_team="Mexico", away_team="Czechia", match_date="2026-06-15", stage="Group A"),
             Match(home_team="South Africa", away_team="South Korea", match_date="2026-06-15", stage="Group A"),
             Match(home_team="Mexico", away_team="South Korea", match_date="2026-06-19", stage="Group A"),
             Match(home_team="South Africa", away_team="Czechia", match_date="2026-06-19", stage="Group A"),
-            # Group B
             Match(home_team="Canada", away_team="Bosnia-Herzegovina", match_date="2026-06-12", stage="Group B"),
             Match(home_team="Qatar", away_team="Switzerland", match_date="2026-06-12", stage="Group B"),
             Match(home_team="Canada", away_team="Qatar", match_date="2026-06-16", stage="Group B"),
             Match(home_team="Bosnia-Herzegovina", away_team="Switzerland", match_date="2026-06-16", stage="Group B"),
             Match(home_team="Canada", away_team="Switzerland", match_date="2026-06-20", stage="Group B"),
             Match(home_team="Qatar", away_team="Bosnia-Herzegovina", match_date="2026-06-20", stage="Group B"),
-            # Group C
             Match(home_team="Brazil", away_team="Morocco", match_date="2026-06-13", stage="Group C"),
             Match(home_team="Haiti", away_team="Scotland", match_date="2026-06-13", stage="Group C"),
             Match(home_team="Brazil", away_team="Haiti", match_date="2026-06-17", stage="Group C"),
             Match(home_team="Morocco", away_team="Scotland", match_date="2026-06-17", stage="Group C"),
             Match(home_team="Brazil", away_team="Scotland", match_date="2026-06-21", stage="Group C"),
             Match(home_team="Morocco", away_team="Haiti", match_date="2026-06-21", stage="Group C"),
-            # Group D
             Match(home_team="USA", away_team="Paraguay", match_date="2026-06-12", stage="Group D"),
             Match(home_team="Australia", away_team="Turkiye", match_date="2026-06-13", stage="Group D"),
             Match(home_team="USA", away_team="Australia", match_date="2026-06-17", stage="Group D"),
             Match(home_team="Paraguay", away_team="Turkiye", match_date="2026-06-17", stage="Group D"),
             Match(home_team="USA", away_team="Turkiye", match_date="2026-06-21", stage="Group D"),
             Match(home_team="Paraguay", away_team="Australia", match_date="2026-06-21", stage="Group D"),
-            # Group E
             Match(home_team="Germany", away_team="Curacao", match_date="2026-06-14", stage="Group E"),
             Match(home_team="Ivory Coast", away_team="Ecuador", match_date="2026-06-14", stage="Group E"),
             Match(home_team="Germany", away_team="Ivory Coast", match_date="2026-06-18", stage="Group E"),
             Match(home_team="Curacao", away_team="Ecuador", match_date="2026-06-18", stage="Group E"),
             Match(home_team="Germany", away_team="Ecuador", match_date="2026-06-22", stage="Group E"),
             Match(home_team="Curacao", away_team="Ivory Coast", match_date="2026-06-22", stage="Group E"),
-            # Group F
             Match(home_team="Netherlands", away_team="Japan", match_date="2026-06-14", stage="Group F"),
             Match(home_team="Sweden", away_team="Tunisia", match_date="2026-06-14", stage="Group F"),
             Match(home_team="Netherlands", away_team="Sweden", match_date="2026-06-18", stage="Group F"),
             Match(home_team="Japan", away_team="Tunisia", match_date="2026-06-18", stage="Group F"),
             Match(home_team="Netherlands", away_team="Tunisia", match_date="2026-06-22", stage="Group F"),
             Match(home_team="Japan", away_team="Sweden", match_date="2026-06-22", stage="Group F"),
-            # Group G
             Match(home_team="Belgium", away_team="Egypt", match_date="2026-06-15", stage="Group G"),
             Match(home_team="Iran", away_team="New Zealand", match_date="2026-06-15", stage="Group G"),
             Match(home_team="Belgium", away_team="Iran", match_date="2026-06-19", stage="Group G"),
             Match(home_team="Egypt", away_team="New Zealand", match_date="2026-06-19", stage="Group G"),
             Match(home_team="Belgium", away_team="New Zealand", match_date="2026-06-23", stage="Group G"),
             Match(home_team="Egypt", away_team="Iran", match_date="2026-06-23", stage="Group G"),
-            # Group H
             Match(home_team="Spain", away_team="Cape Verde", match_date="2026-06-15", stage="Group H"),
             Match(home_team="Saudi Arabia", away_team="Uruguay", match_date="2026-06-15", stage="Group H"),
             Match(home_team="Spain", away_team="Saudi Arabia", match_date="2026-06-19", stage="Group H"),
             Match(home_team="Cape Verde", away_team="Uruguay", match_date="2026-06-19", stage="Group H"),
             Match(home_team="Spain", away_team="Uruguay", match_date="2026-06-23", stage="Group H"),
             Match(home_team="Cape Verde", away_team="Saudi Arabia", match_date="2026-06-23", stage="Group H"),
-            # Group I
             Match(home_team="France", away_team="Senegal", match_date="2026-06-16", stage="Group I"),
             Match(home_team="Iraq", away_team="Norway", match_date="2026-06-16", stage="Group I"),
             Match(home_team="France", away_team="Iraq", match_date="2026-06-20", stage="Group I"),
             Match(home_team="Senegal", away_team="Norway", match_date="2026-06-20", stage="Group I"),
             Match(home_team="France", away_team="Norway", match_date="2026-06-24", stage="Group I"),
             Match(home_team="Senegal", away_team="Iraq", match_date="2026-06-24", stage="Group I"),
-            # Group J
             Match(home_team="Argentina", away_team="Algeria", match_date="2026-06-16", stage="Group J"),
             Match(home_team="Austria", away_team="Jordan", match_date="2026-06-16", stage="Group J"),
             Match(home_team="Argentina", away_team="Austria", match_date="2026-06-20", stage="Group J"),
             Match(home_team="Algeria", away_team="Jordan", match_date="2026-06-20", stage="Group J"),
             Match(home_team="Argentina", away_team="Jordan", match_date="2026-06-24", stage="Group J"),
             Match(home_team="Algeria", away_team="Austria", match_date="2026-06-24", stage="Group J"),
-            # Group K
             Match(home_team="Portugal", away_team="DR Congo", match_date="2026-06-17", stage="Group K"),
             Match(home_team="Uzbekistan", away_team="Colombia", match_date="2026-06-17", stage="Group K"),
             Match(home_team="Portugal", away_team="Uzbekistan", match_date="2026-06-21", stage="Group K"),
             Match(home_team="DR Congo", away_team="Colombia", match_date="2026-06-21", stage="Group K"),
             Match(home_team="Portugal", away_team="Colombia", match_date="2026-06-25", stage="Group K"),
             Match(home_team="DR Congo", away_team="Uzbekistan", match_date="2026-06-25", stage="Group K"),
-            # Group L
             Match(home_team="England", away_team="Croatia", match_date="2026-06-17", stage="Group L"),
             Match(home_team="Ghana", away_team="Panama", match_date="2026-06-17", stage="Group L"),
             Match(home_team="England", away_team="Ghana", match_date="2026-06-21", stage="Group L"),
@@ -152,8 +141,8 @@ def seed_matches():
 def index():
     group = request.args.get('group', 'All')
     groups = ['All', 'Group A', 'Group B', 'Group C', 'Group D',
-          'Group E', 'Group F', 'Group G', 'Group H',
-          'Group I', 'Group J', 'Group K', 'Group L']
+              'Group E', 'Group F', 'Group G', 'Group H',
+              'Group I', 'Group J', 'Group K', 'Group L']
     if group == 'All':
         matches = Match.query.order_by(Match.match_date).all()
     else:
@@ -175,12 +164,21 @@ def predict(match_id):
     match = Match.query.get_or_404(match_id)
     home = int(request.form.get('home_score', 0))
     away = int(request.form.get('away_score', 0))
-    existing = Prediction.query.filter_by(user_id=current_user.id, match_id=match_id).first()
+    existing = Prediction.query.filter_by(
+        user_id=current_user.id,
+        match_id=match_id
+    ).first()
     if existing:
         existing.home_score = home
         existing.away_score = away
+        existing.points = 0
     else:
-        pred = Prediction(user_id=current_user.id, match_id=match_id, home_score=home, away_score=away)
+        pred = Prediction(
+            user_id=current_user.id,
+            match_id=match_id,
+            home_score=home,
+            away_score=away
+        )
         db.session.add(pred)
     db.session.commit()
     flash('Prediction saved!', 'success')
