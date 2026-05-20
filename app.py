@@ -236,6 +236,11 @@ def login():
         flash('Invalid username or password', 'error')
     return render_template('login.html')
 
+@app.route('/bracket')
+@login_required
+def bracket():
+    return render_template('bracket.html')
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
