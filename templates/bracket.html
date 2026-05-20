@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Knockout Bracket — World Cup Predictor</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Inter', sans-serif; }
+    .connector-h {
+      position: absolute;
+      background: #2a2a2a;
+    }
+    .connector-v {
+      position: absolute;
+      background: #2a2a2a;
+    }
+  </style>
+</head>
+
+<body class="bg-[#0e0e0e] text-white min-h-screen">
+
+  <header class="bg-[#141414] border-b border-[#1f1f1f] px-6 py-3 flex items-center justify-between sticky top-0 z-50">
+    <div class="flex items-center gap-2">
+      <div class="w-7 h-7 bg-blue-600 rounded-md flex items-center justify-center text-xs font-black">WC</div>
+      <span class="font-semibold text-sm tracking-tight">World Cup Predictor</span>
+    </div>
+    <nav class="flex items-center gap-1 text-sm">
+      <a href="/" class="px-3 py-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/5 transition text-xs font-medium">Matches</a>
+      <a href="/results" class="px-3 py-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/5 transition text-xs font-medium">Results</a>
+      <a href="/leaderboard" class="px-3 py-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/5 transition text-xs font-medium">Leaderboard</a>
+      <a href="/rankings" class="px-3 py-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/5 transition text-xs font-medium">Rankings</a>
+      <a href="/bracket" class="px-3 py-1.5 rounded-md text-white transition text-xs font-medium">Bracket</a>
+      <div class="w-px h-4 bg-zinc-700 mx-1"></div>
+      <span class="text-zinc-500 text-xs px-2">{{ current_user.username }}</span>
+      <a href="/logout" class="px-3 py-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/5 transition text-xs font-medium">Logout</a>
+    </nav>
+  </header>
+
+  <div class="bg-blue-600/10 border-b border-blue-600/20 px-6 py-2 flex items-center justify-between">
+    <span class="text-zinc-500 text-xs">2026 FIFA World Cup — Mexico City opener</span>
+    <span id="countdown" class="text-blue-400 text-xs font-semibold tabular-nums"></span>
+  </div>
+
+  <div class="bg-[#0a0a0a] border-b border-[#1a1a1a] px-6 py-2 flex items-center gap-2">
+    <span class="text-[10px] font-semibold text-zinc-600 uppercase tracking-widest whitespace-nowrap">Did you know</span>
+    <span class="w-px h-3 bg-zinc-700"></span>
+    <span id="fun-fact" class="text-zinc-500 text-xs"></span>
+  </div>
+
+  <main class="px-4 py-6">
+
+    <div class="mb-6">
+      <p class="text-[10px] font-semibold text-zinc-600 uppercase tracking-widest mb-1">2026 FIFA World Cup</p>
+      <h1 class="text-lg font-bold">Knockout Bracket</h1>
+      <p class="text-zinc-600 text-xs mt-1">Slots will be filled as teams advance from the group stage</p>
+    </div>
+
+    <div class="overflow-x-auto pb-6">
+      <div class="flex items-center justify-center gap-4 min-w-[1100px]">
+
+        <!-- ROUND OF 32 LEFT -->
+        <div class="flex flex-col gap-2">
+          {% set r32_left = [
+            ("1A", "2B", "Jun 29"), ("1C", "2D", "Jun 29"),
+            ("1E", "2F", "Jun 30"), ("1G", "2H", "Jun 30"),
+            ("1I", "2J", "Jul 1"), ("1K", "2L", "Jul 1"),
+            ("3rd A/B/C/D", "3rd E/F/G/H", "Jul 2"), ("3rd I/J/K/L", "3rd E/F/G/H", "Jul 2"),
+          ] %}
+          {% for home, away, date in r32_left %}
+          <div class="bg-[#141414] border border-[#1f1f1f] rounded-lg px-3 py-2 w-36 hover:border-zinc-700 transition">
+            <p class="text-[9px] text-zinc-600 mb-1.5">{{ date }}</p>
+            <div class="flex items-center gap-1.5 mb-1">
+              <div class="w-4 h-4 rounded-sm bg-zinc-800 flex items-center justify-center">
+                <span class="text-[8px] text-zinc-500">?</span>
+              </div>
+              <span class="text-xs font-semibold text-zinc-300">{{ home }}</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <div class="w-4 h-4 rounded-sm bg-zinc-800 flex items-center justify-center">
+                <span class="text-[8px] text-zinc-500">?</span>
+              </div>
+              <span class="text-xs font-semibold text-zinc-300">{{ away }}</span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- ROUND OF 16 LEFT -->
+        <div class="flex flex-col gap-8 justify-center">
+          {% set r16_left = [
+            ("W1", "W2", "Jul 4"), ("W3", "W4", "Jul 4"),
+            ("W5", "W6", "Jul 5"), ("W7", "W8", "Jul 5"),
+          ] %}
+          {% for home, away, date in r16_left %}
+          <div class="bg-[#141414] border border-[#1f1f1f] rounded-lg px-3 py-2 w-36 hover:border-zinc-700 transition">
+            <p class="text-[9px] text-zinc-600 mb-1.5">{{ date }}</p>
+            <div class="flex items-center gap-1.5 mb-1">
+              <div class="w-4 h-4 rounded-sm bg-zinc-800 flex items-center justify-center">
+                <span class="text-[8px] text-zinc-500">?</span>
+              </div>
+              <span class="text-xs font-semibold text-zinc-500">TBD</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <div class="w-4 h-4 rounded-sm bg-zinc-800 flex items-center justify-center">
+                <span class="text-[8px] text-zinc-500">?</span>
+              </div>
+              <span class="text-xs font-semibold text-zinc-500">TBD</span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- QUARTER FINALS LEFT -->
+        <div class="flex flex-col gap-24 justify-center">
+          {% set qf_left = [("QF1", "QF2", "Jul 9"), ("QF3", "QF4", "Jul 10")] %}
+          {% for home, away, date in qf_left %}
+          <div class="bg-[#141414] border border-[#1f1f1f] rounded-lg px-3 py-2 w-36 hover:border-zinc-700 transition">
+            <p class="text-[9px] text-zinc-600 mb-1.5">{{ date }}</p>
+            <div class="flex items-center gap-1.5 mb-1">
+              <div class="w-4 h-4 rounded-sm bg-zinc-800 flex items-center justify-center">
+                <span class="text-[8px] text-zinc-500">?</span>
+              </div>
+              <span class="text-xs font-semibold text-zinc-500">TBD</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <div class="w-4 h-4 rounded-sm bg-zinc-800 flex items-center justify-center">
+                <span class="text-[8px] text-zinc-500">?</span>
+              </div>
+              <span class="text-xs font-semibold text-zinc-500">TBD</span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- SEMI FINALS + FINAL -->
+        <div class="flex flex-col gap-6 items-center justify-center">
+
+          <div class="bg-[#141414] border border-[#1f1f1f] rounded-lg px-3 py-2 w-36 hover:border-zinc-700 transition">
+            <p class="text-[9px] text-zinc-600 mb-1.5">Jul 14 · Semi Final</p>
+            <div class="flex items-center gap-1.5 mb-1">
+              <div class="w-4 h-4 rounded-sm bg-zinc-800 flex items-center justify-center">
+                <span class="text-[8px] text-zinc-500">?</span>
+              </div>
+              <span class="text-xs font-semibold text-zinc-500">TBD</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <div class="w-4 h-4 rounded-sm bg-zinc-800 flex items-center justify-center">
+                <span class="text-[8px] text-zinc-500">?</span>
+              </div>
+              <span class="text-xs font-semibold text-zinc-500">TBD</span>
+            </div>
+          </div>
+
+          <!-- FINAL -->
+          <div class="bg-[#141414] border border-blue-600/40 rounded-xl px-4 py-3 w-44 relative">
+            <div class="flex items-center justify-between mb-2">
+              <p class="text-[9px] text-zinc-600">Jul 19</p>
+              <span class="text-[9px] font-bold text-blue-400 uppercase tracking-wider">Final</span>
+            </div>
+            <div class="flex items-center gap-1.5 mb-2">
+              <div class="w-5 h-5 rounded-sm bg-zinc-800 flex items-center justify-center">
+                <span class="text-[8px] text-zinc-500">?</span>
+              </div>
+              <span class="text-sm font-bold text-zinc-400">TBD</span>
+            </div>
+            <div class="w-full h-px bg-zinc-800 mb-2"></div>
+            <div class="flex items-center gap-1.5">
+              <div class="w-5 h-5 rounded-sm bg-zinc-800 flex items-center justify-center">
+                <span class="text-[8px] text-zinc-500">?</span>
+              </div>
+              <span class="text-sm font-bold text-zinc-400">TBD</span>
+            </div>
+            <div class="mt-3 text-center">
+              <p class="text-[10px] text-zinc-600 uppercase tracking-widest">Champion</p>
+              <p class="text-lg font-black text-zinc-700 mt-0.5">?</p>
+            </div>
+          </div>
+
+          <!-- BRONZE -->
+          <div class="bg-[#141414] border border-orange-600/20 rounded-lg px-3 py-2 w-36 hover:border-orange-600/40 transition">
+            <div class="flex items-center justify-between mb-1.5">
+              <p class="text-[9px] text-zinc-600">Jul 18</p>
+              <span class="text-[9px] font-bold text-orange-600 uppercase tracking-wider">3rd Place</span>
+            </div>
+            <div class="flex items-center gap-1.5 mb-1">
+              <div class="w-4 h-4 rounded-sm bg-zinc-800 flex items-center justify-center">
+                <span class="text-[8px] text-zinc-500">?</span>
+              </div>
+              <span class="text-xs font-semibold text-zinc-500">TBD</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <div class="w-4 h-4 rounded-sm bg-zinc-800 flex items-center justify-center">
+                <span class="text-[8px] text-zinc-500">?</span>
+              </div>
+              <span class="text-xs font-semibold text-zinc-500">TBD</span>
+            </div>
+          </div>
+
+          <div class="bg-[#141414] border border-[#1f1f1f] rounded-lg px-3 py-2 w-36 hover:border-zinc-700 transition">
+            <p class="text-[9px] text-zinc-600 mb-1.5">Jul 15 · Semi Final</p>
+            <div class="flex items-center gap-1.5 mb-1">
+              <div class="w-4 h-4 rounded-sm bg-zinc-800 flex items-center justify-center">
+                <span class="text-[8px] text-zinc-500">?</span>
+              </div>
+              <span class="text-xs font-semibold text-zinc-500">TBD</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <div class="w-4 h-4 rounded-sm bg-zinc-800 flex items-center justify-center">
+                <span class="text-[8px] text-zinc-500">?</span>
+              </div>
+              <span class="text-xs font-semibold text-zinc-500">TBD</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- QUARTER FINALS RIGHT -->
+        <div class="flex flex-col gap-24 justify-center">
+          {% set qf_right = [("QF5", "QF6", "Jul 11"), ("QF7", "QF8", "Jul 11")] %}
+          {% for home, away, date in qf_right %}
+          <div class="bg-[#141414] border border-[#1f1f1f] rounded-lg px-3 py-2 w-36 hover:border-zinc-700 transition">
+            <p class="text-[9px] text-zinc-600 mb-1.5">{{ date }}</p>
+            <div class="flex items-center gap-1.5 mb-1">
+              <div class="w-4 h-4 rounded-sm bg-zinc-800 flex items-center justify-center">
+                <span class="text-[8px] text-zinc-500">?</span>
+              </div>
+              <span class="text-xs font-semibold text-zinc-500">TBD</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <div class="w-4 h-4 rounded-sm bg-zinc-800 flex items-center justify-center">
+                <span class="text-[8px] text-zinc-500">?</span>
+              </div>
+              <span class="text-xs font-semibold text-zinc-500">TBD</span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- ROUND OF 16 RIGHT -->
+        <div class="flex flex-col gap-8 justify-center">
+          {% set r16_right = [
+            ("W9", "W10", "Jul 6"), ("W11", "W12", "Jul 6"),
+            ("W13", "W14", "Jul 7"), ("W15", "W16", "Jul 7"),
+          ] %}
+          {% for home, away, date in r16_right %}
+          <div class="bg-[#141414] border border-[#1f1f1f] rounded-lg px-3 py-2 w-36 hover:border-zinc-700 transition">
+            <p class="text-[9px] text-zinc-600 mb-1.5">{{ date }}</p>
+            <div class="flex items-center gap-1.5 mb-1">
+              <div class="w-4 h-4 rounded-sm bg-zinc-800 flex items-center justify-center">
+                <span class="text-[8px] text-zinc-500">?</span>
+              </div>
+              <span class="text-xs font-semibold text-zinc-500">TBD</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <div class="w-4 h-4 rounded-sm bg-zinc-800 flex items-center justify-center">
+                <span class="text-[8px] text-zinc-500">?</span>
+              </div>
+              <span class="text-xs font-semibold text-zinc-500">TBD</span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- ROUND OF 32 RIGHT -->
+        <div class="flex flex-col gap-2">
+          {% set r32_right = [
+            ("1B", "2A", "Jun 28"), ("1D", "2C", "Jun 28"),
+            ("1F", "2E", "Jun 29"), ("1H", "2G", "Jun 29"),
+            ("1J", "2I", "Jul 1"), ("1L", "2K", "Jul 1"),
+            ("3rd A/B/C/D", "3rd I/J/K/L", "Jul 2"), ("3rd E/F/G/H", "3rd I/J/K/L", "Jul 2"),
+          ] %}
+          {% for home, away, date in r32_right %}
+          <div class="bg-[#141414] border border-[#1f1f1f] rounded-lg px-3 py-2 w-36 hover:border-zinc-700 transition">
+            <p class="text-[9px] text-zinc-600 mb-1.5">{{ date }}</p>
+            <div class="flex items-center gap-1.5 mb-1">
+              <div class="w-4 h-4 rounded-sm bg-zinc-800 flex items-center justify-center">
+                <span class="text-[8px] text-zinc-500">?</span>
+              </div>
+              <span class="text-xs font-semibold text-zinc-300">{{ home }}</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <div class="w-4 h-4 rounded-sm bg-zinc-800 flex items-center justify-center">
+                <span class="text-[8px] text-zinc-500">?</span>
+              </div>
+              <span class="text-xs font-semibold text-zinc-300">{{ away }}</span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    const facts = [
+      "Brazil is the most successful World Cup nation with 5 titles — 1958, 1962, 1970, 1994 and 2002.",
+      "Just Fontaine scored 13 goals at the 1958 World Cup — still the all-time single tournament record.",
+      "The 2026 World Cup will be the first ever with 48 teams, up from 32.",
+      "Hakan Sukur scored the fastest goal in World Cup history — just 11 seconds against South Korea in 2002.",
+      "Pele became the youngest World Cup winner ever at just 17 years old in 1958.",
+      "The 1994 final between Brazil and Italy was the first ever decided by a penalty shootout.",
+      "France won the 1998 World Cup on home soil, beating Brazil 3-0 in the final.",
+      "The highest scoring World Cup game was Austria 7-5 Switzerland in 1954.",
+    ];
+    document.getElementById('fun-fact').textContent = facts[Math.floor(Math.random() * facts.length)];
+
+    const kickoff = new Date('2026-06-11T20:00:00');
+    function updateCountdown() {
+      const diff = kickoff - new Date();
+      if (diff <= 0) { document.getElementById('countdown').textContent = "Live now"; return; }
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      document.getElementById('countdown').textContent = `${d}d ${h}h ${m}m ${s}s`;
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+
+</body>
+</html>
