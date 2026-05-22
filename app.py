@@ -138,6 +138,28 @@ def seed_matches():
 
 @app.route('/')
 @login_required
+def home():
+    total_users = User.query.count()
+    total_predictions = Prediction.query.filter_by(user_id=current_user.id).count()
+    total_points = sum(p.points for p in Prediction.query.filter_by(user_id=current_user.id).all())
+    top_user = None
+    users = User.query.all()
+    scores = [(u.username, sum(p.points for p in u.predictions)) for u in users]
+    scores.sort(key=lambda x: x[1], reverse=True)
+    if scores:
+        top_user = scores[0]
+    user_rank = next((i+1 for i, s in enumerate(scores) if s[0] == current_user.username), None)
+    return render_template('home.html',
+        total_users=total_users,
+        total_predictions=total_predictions,
+        total_points=total_points,
+        top_user=top_user,
+        user_rank=user_rank,
+        scores=scores[:3]
+    )
+
+@app.route('/matches')
+@login_required
 def index():
     group = request.args.get('group', 'All')
     groups = ['All', 'Group A', 'Group B', 'Group C', 'Group D',
