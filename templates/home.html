@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>World Cup Predictor 2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Inter', sans-serif; }
+    .countdown-timer { font-variant-numeric: tabular-nums; }
+    .hero-gradient {
+      background: radial-gradient(ellipse at top, #1d3a6e 0%, #0e0e0e 60%);
+    }
+    .stat-card {
+      background: linear-gradient(135deg, #141414 0%, #1a1a1a 100%);
+    }
+  </style>
+</head>
+
+<body class="bg-[#0e0e0e] text-white min-h-screen">
+
+  <!-- Header -->
+  <header class="bg-[#141414]/80 backdrop-blur border-b border-[#1f1f1f] px-6 py-3 flex items-center justify-between sticky top-0 z-50">
+    <div class="flex items-center gap-2">
+      <div class="w-7 h-7 bg-blue-600 rounded-md flex items-center justify-center text-xs font-black">WC</div>
+      <span class="font-semibold text-sm tracking-tight">World Cup Predictor</span>
+    </div>
+    <nav class="flex items-center gap-1 text-sm">
+      <a href="/" class="px-3 py-1.5 rounded-md text-white transition text-xs font-medium">Home</a>
+      <a href="/matches" class="px-3 py-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/5 transition text-xs font-medium">Matches</a>
+      <a href="/results" class="px-3 py-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/5 transition text-xs font-medium">Results</a>
+      <a href="/leaderboard" class="px-3 py-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/5 transition text-xs font-medium">Leaderboard</a>
+      <a href="/rankings" class="px-3 py-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/5 transition text-xs font-medium">Rankings</a>
+      <a href="/bracket" class="px-3 py-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/5 transition text-xs font-medium">Bracket</a>
+      <div class="w-px h-4 bg-zinc-700 mx-1"></div>
+      <span class="text-zinc-500 text-xs px-2">{{ current_user.username }}</span>
+      <a href="/logout" class="px-3 py-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/5 transition text-xs font-medium">Logout</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-gradient px-6 py-20 text-center relative overflow-hidden">
+    <div class="absolute inset-0 opacity-5" style="background-image: repeating-linear-gradient(0deg, transparent, transparent 40px, #ffffff 40px, #ffffff 41px), repeating-linear-gradient(90deg, transparent, transparent 40px, #ffffff 40px, #ffffff 41px);"></div>
+    <div class="relative z-10">
+      <div class="inline-flex items-center gap-2 bg-blue-600/20 border border-blue-600/30 rounded-full px-4 py-1.5 mb-6">
+        <div class="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse"></div>
+        <span class="text-blue-400 text-xs font-semibold uppercase tracking-widest">2026 FIFA World Cup</span>
+      </div>
+      <h1 class="text-5xl font-black tracking-tight mb-3 leading-tight">
+        Predict.<br>
+        <span class="text-blue-500">Compete.</span><br>
+        Win.
+      </h1>
+      <p class="text-zinc-400 text-base max-w-md mx-auto mb-8">
+        Make your predictions for every group stage match. Score points for correct results and climb the leaderboard.
+      </p>
+      <div class="flex items-center justify-center gap-3 flex-wrap">
+        <a href="/matches" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition">
+          Make Predictions
+        </a>
+        <a href="/leaderboard" class="bg-white/5 hover:bg-white/10 border border-white/10 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition">
+          View Leaderboard
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Countdown -->
+  <section class="border-b border-[#1f1f1f] px-6 py-6">
+    <div class="max-w-3xl mx-auto">
+      <p class="text-[10px] font-semibold text-zinc-600 uppercase tracking-widest mb-3 text-center">Kickoff in</p>
+      <div class="grid grid-cols-4 gap-3" id="countdown-grid">
+        <div class="bg-[#141414] border border-[#1f1f1f] rounded-xl p-4 text-center">
+          <p class="text-3xl font-black tabular-nums text-white" id="cd-days">00</p>
+          <p class="text-[10px] text-zinc-600 uppercase tracking-widest mt-1">Days</p>
+        </div>
+        <div class="bg-[#141414] border border-[#1f1f1f] rounded-xl p-4 text-center">
+          <p class="text-3xl font-black tabular-nums text-white" id="cd-hours">00</p>
+          <p class="text-[10px] text-zinc-600 uppercase tracking-widest mt-1">Hours</p>
+        </div>
+        <div class="bg-[#141414] border border-[#1f1f1f] rounded-xl p-4 text-center">
+          <p class="text-3xl font-black tabular-nums text-white" id="cd-mins">00</p>
+          <p class="text-[10px] text-zinc-600 uppercase tracking-widest mt-1">Minutes</p>
+        </div>
+        <div class="bg-[#141414] border border-[#1f1f1f] rounded-xl p-4 text-center">
+          <p class="text-3xl font-black tabular-nums text-blue-400" id="cd-secs">00</p>
+          <p class="text-[10px] text-zinc-600 uppercase tracking-widest mt-1">Seconds</p>
+        </div>
+      </div>
+      <p class="text-center text-zinc-600 text-xs mt-3">Mexico vs South Africa · Jun 11 · Estadio Azteca</p>
+    </div>
+  </section>
+
+  <!-- Stats Row -->
+  <section class="px-6 py-8 border-b border-[#1f1f1f]">
+    <div class="max-w-3xl mx-auto grid grid-cols-3 gap-3">
+      <div class="stat-card border border-[#1f1f1f] rounded-xl p-5">
+        <p class="text-[10px] font-semibold text-zinc-600 uppercase tracking-widest mb-2">Your Rank</p>
+        <p class="text-2xl font-black text-blue-400">#{{ user_rank or '—' }}</p>
+        <p class="text-xs text-zinc-600 mt-1">of {{ total_users }} players</p>
+      </div>
+      <div class="stat-card border border-[#1f1f1f] rounded-xl p-5">
+        <p class="text-[10px] font-semibold text-zinc-600 uppercase tracking-widest mb-2">Your Points</p>
+        <p class="text-2xl font-black text-white">{{ total_points }}</p>
+        <p class="text-xs text-zinc-600 mt-1">{{ total_predictions }} predictions made</p>
+      </div>
+      <div class="stat-card border border-[#1f1f1f] rounded-xl p-5">
+        <p class="text-[10px] font-semibold text-zinc-600 uppercase tracking-widest mb-2">Leader</p>
+        <p class="text-2xl font-black text-yellow-400">{{ top_user[0] if top_user else '—' }}</p>
+        <p class="text-xs text-zinc-600 mt-1">{{ top_user[1] if top_user else 0 }} pts</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mini Leaderboard -->
+  <section class="px-6 py-8 border-b border-[#1f1f1f]">
+    <div class="max-w-3xl mx-auto">
+      <div class="flex items-center justify-between mb-4">
+        <p class="text-[10px] font-semibold text-zinc-600 uppercase tracking-widest">Top Players</p>
+        <a href="/leaderboard" class="text-xs text-blue-400 hover:text-blue-300 transition">View all</a>
+      </div>
+      <div class="bg-[#141414] border border-[#1f1f1f] rounded-2xl overflow-hidden">
+        {% for username, points in scores %}
+        <div class="flex items-center justify-between px-5 py-3.5 border-b border-[#1a1a1a] hover:bg-white/[0.02] transition
+          {{ 'bg-blue-600/5' if username == current_user.username }}">
+          <div class="flex items-center gap-3">
+            {% if loop.index == 1 %}
+            <span class="text-yellow-400 font-bold text-sm w-4">1</span>
+            {% elif loop.index == 2 %}
+            <span class="text-zinc-400 font-bold text-sm w-4">2</span>
+            {% elif loop.index == 3 %}
+            <span class="text-orange-600 font-bold text-sm w-4">3</span>
+            {% endif %}
+            <span class="text-sm font-medium {{ 'text-blue-400' if username == current_user.username else 'text-white' }}">
+              {{ username }}
+            </span>
+            {% if username == current_user.username %}
+            <span class="text-[10px] text-blue-600 font-semibold uppercase tracking-wider">You</span>
+            {% endif %}
+          </div>
+          <span class="text-sm font-bold {{ 'text-blue-400' if username == current_user.username else 'text-zinc-400' }}">
+            {{ points }} <span class="text-zinc-600 font-normal text-xs">pts</span>
+          </span>
+        </div>
+        {% endfor %}
+        {% if not scores %}
+        <div class="px-5 py-8 text-center text-zinc-600 text-sm">No predictions yet — be the first!</div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Links -->
+  <section class="px-6 py-8">
+    <div class="max-w-3xl mx-auto">
+      <p class="text-[10px] font-semibold text-zinc-600 uppercase tracking-widest mb-4">Quick Access</p>
+      <div class="grid grid-cols-2 gap-3">
+        <a href="/matches" class="bg-[#141414] border border-[#1f1f1f] rounded-xl p-4 hover:border-zinc-700 transition flex items-center justify-between">
+          <div>
+            <p class="text-sm font-semibold">Group Stage</p>
+            <p class="text-xs text-zinc-600 mt-0.5">72 matches · 12 groups</p>
+          </div>
+          <span class="text-zinc-700 text-lg">→</span>
+        </a>
+        <a href="/bracket" class="bg-[#141414] border border-[#1f1f1f] rounded-xl p-4 hover:border-zinc-700 transition flex items-center justify-between">
+          <div>
+            <p class="text-sm font-semibold">Knockout Bracket</p>
+            <p class="text-xs text-zinc-600 mt-0.5">Round of 32 to Final</p>
+          </div>
+          <span class="text-zinc-700 text-lg">→</span>
+        </a>
+        <a href="/rankings" class="bg-[#141414] border border-[#1f1f1f] rounded-xl p-4 hover:border-zinc-700 transition flex items-center justify-between">
+          <div>
+            <p class="text-sm font-semibold">FIFA Rankings</p>
+            <p class="text-xs text-zinc-600 mt-0.5">All 48 qualified nations</p>
+          </div>
+          <span class="text-zinc-700 text-lg">→</span>
+        </a>
+        <a href="/leaderboard" class="bg-[#141414] border border-[#1f1f1f] rounded-xl p-4 hover:border-zinc-700 transition flex items-center justify-between">
+          <div>
+            <p class="text-sm font-semibold">Leaderboard</p>
+            <p class="text-xs text-zinc-600 mt-0.5">{{ total_users }} players competing</p>
+          </div>
+          <span class="text-zinc-700 text-lg">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const kickoff = new Date('2026-06-11T20:00:00');
+    function updateCountdown() {
+      const diff = kickoff - new Date();
+      if (diff <= 0) {
+        document.getElementById('cd-days').textContent = '00';
+        document.getElementById('cd-hours').textContent = '00';
+        document.getElementById('cd-mins').textContent = '00';
+        document.getElementById('cd-secs').textContent = '00';
+        return;
+      }
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      document.getElementById('cd-days').textContent = String(d).padStart(2, '0');
+      document.getElementById('cd-hours').textContent = String(h).padStart(2, '0');
+      document.getElementById('cd-mins').textContent = String(m).padStart(2, '0');
+      document.getElementById('cd-secs').textContent = String(s).padStart(2, '0');
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+
+</body>
+</html>
