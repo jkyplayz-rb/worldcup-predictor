@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+import os
 
 TEAM_FLAGS = {
     "Mexico": "mx", "South Africa": "za", "South Korea": "kr", "Czechia": "cz",
@@ -21,7 +22,7 @@ TEAM_FLAGS = {
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'worldcup2026secretkey'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///worldcup.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///worldcup.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
