@@ -20,6 +20,20 @@ TEAM_FLAGS = {
     "Panama": "pa", "Haiti": "ht",
 }
 
+BANNED_WORDS = [
+    'nigger', 'nigga', 'faggot', 'fag', 'retard', 'spic', 'chink', 'kike',
+    'wetback', 'tranny', 'cunt', 'fuck', 'shit', 'ass', 'bitch', 'bastard',
+    'whore', 'slut', 'dick', 'cock', 'pussy', 'piss', 'nazi', 'hitler',
+    'kkk', 'porn', 'sex', 'rape', 'pedo', 'racist', 'admin', 'root',
+]
+
+def is_username_clean(username):
+    username_lower = username.lower()
+    for word in BANNED_WORDS:
+        if word in username_lower:
+            return False
+    return True
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'worldcup2026secretkey'
 database_url = os.environ.get('DATABASE_URL', 'sqlite:///worldcup.db')
@@ -274,6 +288,15 @@ def register():
         password = request.form.get('password')
         if User.query.filter_by(username=username).first():
             flash('Username already taken', 'error')
+            return redirect(url_for('register'))
+        if len(username) < 3 or len(username) > 20:
+            flash('Username must be between 3 and 20 characters', 'error')
+            return redirect(url_for('register'))
+        if not username.replace('_', '').replace('.', '').isalnum():
+            flash('Username can only contain letters, numbers, underscores and dots', 'error')
+            return redirect(url_for('register'))
+        if not is_username_clean(username):
+            flash('That username is not allowed', 'error')
             return redirect(url_for('register'))
         user = User(username=username, password=generate_password_hash(password))
         db.session.add(user)
