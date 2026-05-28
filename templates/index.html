@@ -43,26 +43,26 @@
     <span id="fun-fact" class="text-zinc-500 text-xs"></span>
   </div>
 
-  <main class="max-w-3xl mx-auto px-4 py-6">
+<main class="max-w-3xl mx-auto px-4 py-6">
 
-    <div class="grid grid-cols-3 gap-3 mb-6">
-      <div class="bg-[#141414] rounded-xl p-4 border border-[#1f1f1f]">
-        <p class="text-[10px] text-zinc-600 uppercase tracking-widest mb-1">Player</p>
-        <p class="text-sm font-semibold">{{ current_user.username }}</p>
-      </div>
-      <div class="bg-[#141414] rounded-xl p-4 border border-[#1f1f1f]">
-        <p class="text-[10px] text-zinc-600 uppercase tracking-widest mb-1">Total Points</p>
-        <p class="text-sm font-semibold text-blue-400">{{ total_points }}</p>
-      </div>
-      <div class="bg-[#141414] rounded-xl p-4 border border-[#1f1f1f]">
-        <p class="text-[10px] text-zinc-600 uppercase tracking-widest mb-1">Group Stage</p>
-        <p class="text-sm font-semibold text-zinc-400">72 Matches</p>
-      </div>
+  <div class="grid grid-cols-3 gap-3 mb-6">
+    <div class="bg-[#141414] rounded-xl p-4 border border-[#1f1f1f]">
+      <p class="text-[10px] text-zinc-600 uppercase tracking-widest mb-1">Player</p>
+      <p class="text-sm font-semibold">{{ current_user.username }}</p>
     </div>
+    <div class="bg-[#141414] rounded-xl p-4 border border-[#1f1f1f]">
+      <p class="text-[10px] text-zinc-600 uppercase tracking-widest mb-1">Total Points</p>
+      <p class="text-sm font-semibold text-blue-400">{{ total_points }}</p>
+    </div>
+    <div class="bg-[#141414] rounded-xl p-4 border border-[#1f1f1f]">
+      <p class="text-[10px] text-zinc-600 uppercase tracking-widest mb-1">Predicted</p>
+      <p class="text-sm font-semibold text-zinc-400">{{ prediction_count }}<span class="text-zinc-600 font-normal"> / 72</span></p>
+    </div>
+  </div>
 
     <div class="flex gap-1.5 flex-wrap mb-5">
       {% for g in groups %}
-      <a href=" /matches?group={{ g }}"
+      <a href="/matches?group={{ g }}"
         class="px-3 py-1 rounded-md text-[11px] font-medium transition border
         {{ 'bg-blue-600 border-blue-600 text-white' if selected_group == g else 'border-[#2a2a2a] text-zinc-500 hover:text-zinc-300 hover:border-zinc-600 bg-transparent' }}">
         {{ g }}

@@ -193,9 +193,10 @@ def index():
         matches=matches,
         predictions=user_predictions,
         total_points=total_points,
+        prediction_count=len(user_predictions),
         groups=groups,
         selected_group=group,
-        flags=TEAM_FLAGS
+        flags=TEAM_FLAGS,
     )
 
 @app.route('/predict/<int:match_id>', methods=['POST'])
