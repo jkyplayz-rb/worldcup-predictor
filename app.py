@@ -176,6 +176,41 @@ def home():
         scores=scores[:3]
     )
 
+@app.route('/profile')
+@login_required
+def profile():
+    user_predictions = Prediction.query.filter_by(user_id=current_user.id).all()
+    total_points = sum(p.points for p in user_predictions)
+    total_predicted = len(user_predictions)
+    correct_results = sum(1 for p in user_predictions if p.points > 0)
+    accuracy = round((correct_results / total_predicted * 100)) if total_predicted > 0 else 0
+
+    users = User.query.all()
+    scores = [(u.username, sum(p.points for p in u.predictions)) for u in users]
+    scores.sort(key=lambda x: x[1], reverse=True)
+    user_rank = next((i+1 for i, s in enumerate(scores) if s[0] == current_user.username), None)
+
+    predictions_with_matches = []
+    for pred in user_predictions:
+        match = Match.query.get(pred.match_id)
+        predictions_with_matches.append({
+            'match': match,
+            'home_score': pred.home_score,
+            'away_score': pred.away_score,
+            'points': pred.points,
+        })
+
+    predictions_with_matches.sort(key=lambda x: x['match'].match_date)
+
+    return render_template('profile.html',
+        total_points=total_points,
+        total_predicted=total_predicted,
+        accuracy=accuracy,
+        user_rank=user_rank,
+        total_users=len(users),
+        predictions_with_matches=predictions_with_matches,
+    )
+
 @app.route('/matches')
 @login_required
 def index():
