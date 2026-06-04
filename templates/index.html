@@ -79,7 +79,7 @@
       <div class="bg-[#141414] border border-[#1f1f1f] rounded-xl px-5 py-4 hover:border-[#2a2a2a] transition">
 
         <div class="flex items-center justify-between mb-3">
-          <span class="text-[10px] text-zinc-600 font-medium uppercase tracking-wider">{{ match.stage }} · {{ match.match_date }}</span>
+          <span class="text-[10px] text-zinc-600 font-medium uppercase tracking-wider">{{ match.stage }} · {{ match.match_date|pretty_date }}</span>
           {% if match.home_score is not none %}
           <span class="text-[10px] text-green-500 font-semibold uppercase tracking-wider">Final</span>
           {% else %}
