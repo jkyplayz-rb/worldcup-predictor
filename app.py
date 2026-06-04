@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
+from datetime import datetime
 
 TEAM_FLAGS = {
     "Mexico": "mx", "South Africa": "za", "South Korea": "kr", "Czechia": "cz",
@@ -74,6 +75,11 @@ class Prediction(db.Model):
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+@app.template_filter('pretty_date')
+def pretty_date(date_string):
+    date_obj = datetime.strptime(date_string, "%Y-%m-%d")
+    return date_obj.strftime("%b %d")
 
 def seed_matches():
     if Match.query.count() == 0:
