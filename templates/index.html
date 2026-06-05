@@ -70,13 +70,21 @@
       {% endfor %}
     </div>
 
+    <div class="relative mb-4">
+      <input
+      type="text"
+      id="match-search"
+      placeholder="Search teams..."
+      class="w-full bg-[#141414] border border-[#2a2a2a] rounded-xl px-4 py-2.5 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-blue-600 transition">
+    </div>
+
     <p class="text-[10px] font-semibold text-zinc-600 uppercase tracking-widest mb-3">
       {{ selected_group if selected_group != 'All' else 'All Matches' }}
     </p>
 
     <div class="flex flex-col gap-2">
       {% for match in matches %}
-      <div class="bg-[#141414] border border-[#1f1f1f] rounded-xl px-5 py-4 hover:border-[#2a2a2a] transition">
+      <div class="match-card-item bg-[#141414] border border-[#1f1f1f] rounded-xl px-5 py-4 hover:border-[#2a2a2a] transition"></div>
 
         <div class="flex items-center justify-between mb-3">
           <span class="text-[10px] text-zinc-600 font-medium uppercase tracking-wider">{{ match.stage }} · {{ match.match_date|pretty_date }}</span>
@@ -178,6 +186,19 @@
       const s = Math.floor((diff % 60000) / 1000);
       document.getElementById('countdown').textContent = `${d}d ${h}h ${m}m ${s}s`;
     }
+
+  const searchInput = document.getElementById('match-search');
+  searchInput.addEventListener('input', function() { 
+    const query = this.value.toLowerCase();
+    const cards = document.querySelectorAll('.match-card-item');
+    cards.forEach(card => {
+    const text = card.textContent.toLowerCase();
+    card.style.display = text.includes(query) ? 'block' : 'none';
+  });
+});
+
+
+
     updateCountdown();
     setInterval(updateCountdown, 1000);
   </script>
