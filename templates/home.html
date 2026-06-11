@@ -71,30 +71,16 @@
   </section>
 
   <!-- Countdown -->
-  <section class="border-b border-[#1f1f1f] px-6 py-6">
-    <div class="max-w-3xl mx-auto">
-      <p class="text-[10px] font-semibold text-zinc-600 uppercase tracking-widest mb-3 text-center">Kickoff in</p>
-      <div class="grid grid-cols-4 gap-3" id="countdown-grid">
-        <div class="bg-[#141414] border border-[#1f1f1f] rounded-xl p-4 text-center">
-          <p class="text-3xl font-black tabular-nums text-white" id="cd-days">00</p>
-          <p class="text-[10px] text-zinc-600 uppercase tracking-widest mt-1">Days</p>
-        </div>
-        <div class="bg-[#141414] border border-[#1f1f1f] rounded-xl p-4 text-center">
-          <p class="text-3xl font-black tabular-nums text-white" id="cd-hours">00</p>
-          <p class="text-[10px] text-zinc-600 uppercase tracking-widest mt-1">Hours</p>
-        </div>
-        <div class="bg-[#141414] border border-[#1f1f1f] rounded-xl p-4 text-center">
-          <p class="text-3xl font-black tabular-nums text-white" id="cd-mins">00</p>
-          <p class="text-[10px] text-zinc-600 uppercase tracking-widest mt-1">Minutes</p>
-        </div>
-        <div class="bg-[#141414] border border-[#1f1f1f] rounded-xl p-4 text-center">
-          <p class="text-3xl font-black tabular-nums text-blue-400" id="cd-secs">00</p>
-          <p class="text-[10px] text-zinc-600 uppercase tracking-widest mt-1">Seconds</p>
-        </div>
-      </div>
-      <p class="text-center text-zinc-600 text-xs mt-3">Mexico vs South Africa · Jun 11 · Estadio Azteca</p>
+<section class="border-b border-[#1f1f1f] px-6 py-6">
+  <div class="max-w-3xl mx-auto text-center">
+    <div class="inline-flex items-center gap-3 bg-green-600/10 border border-green-600/30 rounded-2xl px-8 py-4">
+      <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+      <span class="text-green-400 font-bold text-lg tracking-tight">2026 FIFA World Cup is Live</span>
+      <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
     </div>
-  </section>
+    <p class="text-zinc-600 text-xs mt-3">Group stage runs Jun 11 – Jun 26 · Final on Jul 19</p>
+  </div>
+</section>
 
   <!-- Stats Row -->
   <section class="px-6 py-8 border-b border-[#1f1f1f]">
@@ -191,30 +177,6 @@
       </div>
     </div>
   </section>
-
-  <script>
-    const kickoff = new Date('2026-06-11T20:00:00');
-    function updateCountdown() {
-      const diff = kickoff - new Date();
-      if (diff <= 0) {
-        document.getElementById('cd-days').textContent = '00';
-        document.getElementById('cd-hours').textContent = '00';
-        document.getElementById('cd-mins').textContent = '00';
-        document.getElementById('cd-secs').textContent = '00';
-        return;
-      }
-      const d = Math.floor(diff / 86400000);
-      const h = Math.floor((diff % 86400000) / 3600000);
-      const m = Math.floor((diff % 3600000) / 60000);
-      const s = Math.floor((diff % 60000) / 1000);
-      document.getElementById('cd-days').textContent = String(d).padStart(2, '0');
-      document.getElementById('cd-hours').textContent = String(h).padStart(2, '0');
-      document.getElementById('cd-mins').textContent = String(m).padStart(2, '0');
-      document.getElementById('cd-secs').textContent = String(s).padStart(2, '0');
-    }
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-  </script>
 
 </body>
 </html>
